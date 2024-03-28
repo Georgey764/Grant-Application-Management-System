@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" href ="./signUp.css"/>
+    <title>Sign Up</title>
+</head>
+<body>
+    <!-- This is the start of the page -->
+    <div class="div_signup"> 
+
+        <!-- This is the box part that appears in the middle of the page -->
+        <div id = "signup_box">
+            <!-- This is the first container of the box part -->
+                <div class="signup_box_logo"> 
+                    <img src="../Images/ulm_logo.png" alt="ULM logo" class = "ulm_logo"/>
+                </div>
+
+                <!-- This is the part for the sign up page -->
+                <div class = "signup_form">
+                    <form action="" id = "signup_form_box">
+
+                        <div class="form_layout">
+                            <!-- This is the first column in the form -->
+                            <div class="column_1">
+                                <label for="first_name"> First Name</label>
+                                <input type="text" id = "w_first_name" name = "signup_first_name">
+
+                                <label for="last_name"> Last Name </label>
+                                <input type="text" id = "w_last_name" name = "signup_last_name">
+
+                                <label for="major"> Your Department/ Major </label>
+                                <input type="text" id = "w_major" name = "signup_major">
+
+                            </div>
+
+                            <!-- This is the second column in the form -->
+                            <div class="column_2">
+                                <label for="w_email"> Warhawks Email</label>
+                                <input type="email" id = "w_email" name = "signup_email">
+
+                                <label for="cwid"> CWID </label>
+                                <input type="text" id = "w_cwid" name = "signup_last_name">
+
+                                <!-- This is the checkbox for the user to determine his role -->
+                                <div class="faculty_checkbox">
+                                    <input type="checkbox" id="agree" name="agree">
+                                    <label for="agree">Check this if you are a faculty</label>
+                                </div>
+                                
+                            </div>
+
+                            <!-- This is the third column in the form -->
+                            <div class="column_3">
+
+                                <label for="w_password"> Password</label>
+                                <input type="password" id = "w_password" name = "signup_password">
+
+                                <label for="w_c_password"> Confirm Password </label>
+                                <input type="password" id = "w_c_password" name = "signup_password">
+
+                                <button type = "submit" id = "submit_form"> Continue </button>
+
+                                <!-- This is the division for the log in of the user if the account already exist-->
+                                <div class="form_login">
+                                    <span className = "need_account_text">Already have an account?</span>
+                                    <div id = "login_ref" onClick = "GoToLogIn()"> Log In</div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src = "./signUp.js">q</script>
+</body>
+</html>
