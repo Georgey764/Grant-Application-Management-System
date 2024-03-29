@@ -4,6 +4,7 @@ body, html{
     color: black;
     align-items: center;
     justify-content: center;
+    font-family: "Roboto Serif", serif;
 }
 
 /** Login Page (Whole) */
