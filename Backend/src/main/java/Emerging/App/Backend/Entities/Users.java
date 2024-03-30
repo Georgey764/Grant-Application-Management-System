@@ -33,6 +33,7 @@ public class Users {
     public Users() {
     }
 
+
     public String getUsername() {
         return username;
     }
@@ -63,6 +64,14 @@ public class Users {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public MyUserDetails getUserDetails() {
+        return userDetails;
+    }
+
+    public void setUserDetails(MyUserDetails userDetails) {
+        this.userDetails = userDetails;
     }
 
     @Override

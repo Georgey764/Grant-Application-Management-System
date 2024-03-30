@@ -1,4 +1,4 @@
-package Emerging.App.Backend.JSON_Objects;
+package Emerging.App.Backend.JSON_Objects.Authentication;
 
 public class AuthRequest {
 

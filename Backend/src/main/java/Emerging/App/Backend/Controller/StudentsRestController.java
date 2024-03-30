@@ -4,7 +4,7 @@ import Emerging.App.Backend.Entities.CreatedApplication;
 import Emerging.App.Backend.Entities.SentApplication;
 import Emerging.App.Backend.Entities.Resume;
 import Emerging.App.Backend.Entities.Users;
-import Emerging.App.Backend.JSON_Objects.ApplicationRequest;
+import Emerging.App.Backend.JSON_Objects.Authentication.ApplicationRequest;
 import Emerging.App.Backend.Repository.CreatedApplicationRepository;
 import Emerging.App.Backend.Repository.SentApplicationRepository;
 import Emerging.App.Backend.Repository.UsersRepository;
@@ -64,7 +64,7 @@ public class StudentsRestController {
     }
 
     @GetMapping("/applications-list")
-    public List<SentApplication> applicationsList(){
+    public List<SentApplication> applicationsList() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Users user = usersRepository.findByUsername(username);
         return sentApplicationRepository.getStudentApplicationsList(user.getUserId());

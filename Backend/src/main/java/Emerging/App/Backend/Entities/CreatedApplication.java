@@ -16,7 +16,7 @@ public class CreatedApplication {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "createdApplication")
     private List<SentApplication> sentApplication;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "creator")
     private Users user;
 
@@ -28,6 +28,11 @@ public class CreatedApplication {
 
     public CreatedApplication(Users user, String name, String description) {
         this.user = user;
+        this.name = name;
+        this.description = description;
+    }
+
+    public CreatedApplication(String name, String description) {
         this.name = name;
         this.description = description;
     }
