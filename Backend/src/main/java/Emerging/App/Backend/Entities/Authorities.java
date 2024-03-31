@@ -13,8 +13,6 @@ public class Authorities {
     @Column(name = "authority_name")
     private String authorityName;
 
-
-
     public int getAuthorityId() {
         return authorityId;
     }

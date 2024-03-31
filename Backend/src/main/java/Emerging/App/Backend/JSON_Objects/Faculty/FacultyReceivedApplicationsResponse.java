@@ -2,25 +2,35 @@ package Emerging.App.Backend.JSON_Objects.Faculty;
 
 public class FacultyReceivedApplicationsResponse {
 
-    private int userId;
+    private int sentApplicationId;
     private String firstName;
     private String lastName;
+    private String decision;
 
-    public FacultyReceivedApplicationsResponse(int userId, String firstName, String lastName) {
-        this.userId = userId;
+    public FacultyReceivedApplicationsResponse(int sentApplicationId, String firstName, String lastName, String decision) {
+        this.sentApplicationId = sentApplicationId;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.decision = decision;
     }
 
     public FacultyReceivedApplicationsResponse() {
     }
 
-    public int getUserId() {
-        return userId;
+    public String getDecision() {
+        return decision;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setDecision(String decision) {
+        this.decision = decision;
+    }
+
+    public int getSentApplicationId() {
+        return sentApplicationId;
+    }
+
+    public void setSentApplicationId(int sentApplicationId) {
+        this.sentApplicationId = sentApplicationId;
     }
 
     public String getFirstName() {

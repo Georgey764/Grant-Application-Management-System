@@ -3,6 +3,7 @@ package Emerging.App.Backend.JSON_Objects.Authentication;
 public class AuthResponse {
 
     private String jwt;
+    private String message;
 
     public AuthResponse() {
     }
@@ -17,6 +18,14 @@ public class AuthResponse {
 
     public void setJwt(String jwt) {
         this.jwt = jwt;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     @Override

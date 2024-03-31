@@ -2,8 +2,10 @@ package Emerging.App.Backend.Controller;
 
 import Emerging.App.Backend.Entities.CreatedApplication;
 import Emerging.App.Backend.Entities.MyUserDetails;
+import Emerging.App.Backend.Entities.SentApplication;
 import Emerging.App.Backend.Entities.Users;
-import Emerging.App.Backend.JSON_Objects.Faculty.CreateApplicationRequest;
+import Emerging.App.Backend.JSON_Objects.Faculty.CreateProjectRequest;
+import Emerging.App.Backend.JSON_Objects.Faculty.FacultyApplicationResponse;
 import Emerging.App.Backend.JSON_Objects.Faculty.FacultyProjectResponse;
 import Emerging.App.Backend.JSON_Objects.Faculty.FacultyReceivedApplicationsResponse;
 import Emerging.App.Backend.Repository.CreatedApplicationRepository;
@@ -33,9 +35,14 @@ public class FacultyRestController {
     }
 
     @GetMapping("/project")
-    public ResponseEntity<FacultyProjectResponse> getProject(){
+    public ResponseEntity<?> getProject(){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        int id = usersRepository.findByUsername(username).getUserId();
+        Optional<Users> usersOptional = usersRepository.findByUsername(username);
+        if(usersOptional.isEmpty()){
+            return new ResponseEntity<>("Given user doesn't exist", HttpStatus.NOT_FOUND);
+        }
+        Users user =usersOptional.get();
+        int id = user.getUserId();
         Optional<CreatedApplication> createdApplicationOptional = createdApplicationRepository.findByCreatorUserId(id);
 
         if(createdApplicationOptional.isEmpty()){
@@ -48,57 +55,107 @@ public class FacultyRestController {
     }
 
     @GetMapping("/received-applications")
-    public List<FacultyReceivedApplicationsResponse> getReceivedApplications(@RequestParam(name="search-query", required = false) String searchQuery){
+    public ResponseEntity<?> getReceivedApplications(@RequestParam(name="search-query", required = false) String searchQuery){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        int id = usersRepository.findByUsername(username).getUserId();
+        Optional<Users> usersOptional = usersRepository.findByUsername(username);
+        if(usersOptional.isEmpty()){
+            return new ResponseEntity<>("Given user doesn't exist", HttpStatus.NOT_FOUND);
+        }
+        Users user =usersOptional.get();
+        int id = user.getUserId();
 
         if(searchQuery != null){
-            List<MyUserDetails> list = sentApplicationRepository.getSearchQueryResults(id, "%" + searchQuery + "%");
-            Iterator<MyUserDetails> iterator = list.listIterator();
+            List<SentApplication> list = sentApplicationRepository.getSearchQueryResults(id, "%" + searchQuery + "%");
+            Iterator<SentApplication> iterator = list.listIterator();
             List<FacultyReceivedApplicationsResponse> responseList = new ArrayList<>();
             while(iterator.hasNext()){
-                MyUserDetails current = iterator.next();
-                int senderUserId = current.getUser().getUserId();
-                String firstName = current.getFirstName();
-                String lastName = current.getLastName();
-                responseList.add(new FacultyReceivedApplicationsResponse(senderUserId, firstName, lastName));
+                SentApplication current = iterator.next();
+                int sentApplicationId = current.getSentApplicationId();
+                String firstName = current.getSender().getUserDetails().getFirstName();
+                String lastName = current.getSender().getUserDetails().getLastName();
+                String decision = current.getDecision();
+                responseList.add(new FacultyReceivedApplicationsResponse(sentApplicationId, firstName, lastName, decision));
             }
-            return responseList;
+            return new ResponseEntity<>(responseList, HttpStatus.OK);
         } else{
-            List<Users> senderList = sentApplicationRepository.getReceivedApplicationsList(id);
-            Iterator<Users> iterator = senderList.listIterator();
+            List<SentApplication> senderList = sentApplicationRepository.getReceivedApplicationsList(id);
+            Iterator<SentApplication> iterator = senderList.listIterator();
             List<FacultyReceivedApplicationsResponse> responseList = new ArrayList<>();
             while(iterator.hasNext()){
-                Users current = iterator.next();
-                int senderUserId = current.getUserId();
-                String firstName = current.getUserDetails().getFirstName();
-                String lastName = current.getUserDetails().getLastName();
-                responseList.add(new FacultyReceivedApplicationsResponse(senderUserId, firstName, lastName));
+                SentApplication current = iterator.next();
+                int sentApplicationId = current.getSentApplicationId();
+                String firstName = current.getSender().getUserDetails().getFirstName();
+                String lastName = current.getSender().getUserDetails().getLastName();
+                String decision = current.getDecision();
+                responseList.add(new FacultyReceivedApplicationsResponse(sentApplicationId, firstName, lastName, decision));
             }
-            return responseList;
+            return new ResponseEntity<>(responseList, HttpStatus.OK);
         }
     }
 
-    @PostMapping("/create-application")
-    public String createApplication(@RequestBody CreateApplicationRequest request){
+    @GetMapping("/application")
+    public ResponseEntity<?> getApplication(@RequestParam(name = "sent-application-id") int sentApplicationId){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<Users> usersOptional = usersRepository.findByUsername(username);
+        if(usersOptional.isEmpty()){
+            return new ResponseEntity<>("Given user doesn't exist", HttpStatus.NOT_FOUND);
+        }
+        Users user = usersOptional.get();
+        int id = user.getUserId();
+
+        Optional<SentApplication> sentApplicationOptional = sentApplicationRepository.findById(sentApplicationId);
+        if(sentApplicationOptional.isEmpty()){
+            return new ResponseEntity<>("The provided sent application id doesn't exist", HttpStatus.NOT_FOUND);
+        }
+        if(id != sentApplicationOptional.get().getReceiver().getUserId()){
+            return new ResponseEntity<>("The given sent application id is not accessible by the current user.", HttpStatus.UNAUTHORIZED);
+        }
+
+        SentApplication sentApplication = sentApplicationOptional.get();
+        MyUserDetails senderDetails = sentApplication.getSender().getUserDetails();
+        FacultyApplicationResponse response = new FacultyApplicationResponse();
+
+        response.setFirstName(senderDetails.getFirstName());
+        response.setLastName(senderDetails.getLastName());
+        response.setCwid(senderDetails.getCwid());
+        response.setClassification(senderDetails.getClassification());
+        response.setDepartment(senderDetails.getDepartment());
+        response.setResumeLink(sentApplication.getResume().getResumeLink());
+        response.setMessage(sentApplication.getMessage());
+        response.setGpa(senderDetails.getGpa());
+        response.setDecision(sentApplication.getDecision());
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/project")
+    public ResponseEntity<?> createApplication(@RequestBody CreateProjectRequest request){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         String projectName = request.getProjectName();
         String projectDescription = request.getProjectDescription();
-        Users user = usersRepository.findByUsername(username);
+        Optional<Users> usersOptional = usersRepository.findByUsername(username);
+        if(usersOptional.isEmpty()){
+            return new ResponseEntity<>("Given user doesn't exist", HttpStatus.NOT_FOUND);
+        }
+        Users user = usersOptional.get();
 
         CreatedApplication application = new CreatedApplication(user, projectName, projectDescription);
         createdApplicationRepository.save(application);
 
-        return "Success";
+        return new ResponseEntity<>("Successfully retrieved the project", HttpStatus.OK);
     }
 
-    @PostMapping("/edit-application")
-    public ResponseEntity<String> editApplication(@RequestBody CreateApplicationRequest request){
+    @PutMapping("/project")
+    public ResponseEntity<?> editApplication(@RequestBody CreateProjectRequest request){
         String updatedProjectName = request.getProjectName();
         String updatedProjectDescription = request.getProjectDescription();
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        Users ourUser = usersRepository.findByUsername(username);
+        Optional<Users> usersOptional = usersRepository.findByUsername(username);
+        if(usersOptional.isEmpty()){
+            return new ResponseEntity<>("Given user doesn't exist", HttpStatus.NOT_FOUND);
+        }
+        Users ourUser = usersOptional.get();
 
         Optional<CreatedApplication> createdApplicationOptional = createdApplicationRepository.findByCreatorUserId(ourUser.getUserId());
         if(createdApplicationOptional.isEmpty()){
@@ -112,10 +169,16 @@ public class FacultyRestController {
         return new ResponseEntity<>("Successfully Edited", HttpStatus.OK);
     }
 
-    @PostMapping("/delete-application")
-    public ResponseEntity<String> deleteApplication(){
+    @DeleteMapping("/project")
+    public ResponseEntity<?> deleteApplication(){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        int id = usersRepository.findByUsername(username).getUserId();
+        Optional<Users> usersOptional = usersRepository.findByUsername(username);
+        if(usersOptional.isEmpty()){
+            return new ResponseEntity<>("Given user doesn't exist", HttpStatus.NOT_FOUND);
+        }
+        Users user = usersOptional.get();
+        int id = user.getUserId();
+
         Optional<CreatedApplication> appIdOptional = createdApplicationRepository.findByCreatorUserId(id);
 
         if(appIdOptional.isEmpty()){
@@ -123,6 +186,34 @@ public class FacultyRestController {
         }
         createdApplicationRepository.deleteById(appIdOptional.get().getApplicationId());
         return new ResponseEntity<>("Deleted Successfully", HttpStatus.OK);
+    }
+
+    @PutMapping("/decision")
+    public ResponseEntity<?> updateDecision(@RequestParam(name = "sent-application-id", required = true) int sentApplicationId,
+                                                 @RequestParam(name = "decision", required = true) String decision){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<Users> usersOptional = usersRepository.findByUsername(username);
+        if(usersOptional.isEmpty()){
+            return new ResponseEntity<>("Given user doesn't exist", HttpStatus.NOT_FOUND);
+        }
+        Users user = usersOptional.get();
+        int userId = user.getUserId();
+
+        if(decision.toUpperCase() != "ACCEPT" || decision.toUpperCase() != "DECLINE" ){
+            return new ResponseEntity<>("The decision has to be either 'accept' or 'decline'", HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<SentApplication> sentApplicationOptional = sentApplicationRepository.findById(sentApplicationId);
+        if(sentApplicationOptional.isEmpty()){
+            return new ResponseEntity<>("The sent applications with the given id was not found", HttpStatus.NOT_FOUND);
+        }
+        if(sentApplicationOptional.get().getReceiver().getUserId() != userId){
+            return new ResponseEntity<>("You don't have the permission to change this application's decision", HttpStatus.NOT_FOUND);
+        }
+        sentApplicationOptional.get().setDecision(decision.toUpperCase());
+        sentApplicationRepository.flush();
+
+        return new ResponseEntity<>("Successfully edited", HttpStatus.OK);
     }
 
     @GetMapping("/hello")

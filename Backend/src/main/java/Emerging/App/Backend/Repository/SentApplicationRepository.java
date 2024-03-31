@@ -16,11 +16,11 @@ public interface SentApplicationRepository extends JpaRepository<SentApplication
     @Query("SELECT u FROM SentApplication u WHERE u.sender.userId = :userId")
     List<SentApplication> getStudentApplicationsList(@Param("userId") int userId);
 
-    @Query("SELECT u.sender FROM SentApplication u WHERE u.receiver.userId = :userId")
-    List<Users> getReceivedApplicationsList(@Param("userId") int userId);
+    @Query("SELECT u FROM SentApplication u WHERE u.receiver.userId = :userId")
+    List<SentApplication> getReceivedApplicationsList(@Param("userId") int userId);
 
-    @Query("SELECT u.sender.userDetails FROM SentApplication u WHERE u.receiver.userId = :userId AND CONCAT(u.sender.userDetails.firstName, ' ', u.sender.userDetails.lastName) LIKE :query")
-    List<MyUserDetails> getSearchQueryResults(@Param("userId") int userId, @Param("query") String query);
+    @Query("SELECT u FROM SentApplication u WHERE u.receiver.userId = :userId AND CONCAT(u.sender.userDetails.firstName, ' ', u.sender.userDetails.lastName) LIKE :query")
+    List<SentApplication> getSearchQueryResults(@Param("userId") int userId, @Param("query") String query);
 
 //    @Query("SELECT u FROM SentApplication u WHERE u.sender.userDetails.firstName = :query")
 //    List<SentApplication> searchApplicants(@Param("query") String query);

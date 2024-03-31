@@ -8,6 +8,7 @@ import Emerging.App.Backend.JSON_Objects.Authentication.ApplicationRequest;
 import Emerging.App.Backend.Repository.CreatedApplicationRepository;
 import Emerging.App.Backend.Repository.SentApplicationRepository;
 import Emerging.App.Backend.Repository.UsersRepository;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,8 +37,12 @@ public class StudentsRestController {
 
     @PostMapping("/send-application")
     public ResponseEntity<String> sendApplication(@RequestBody ApplicationRequest applicationRequest){
-        Users sender = usersRepository.findByUsername(applicationRequest.getSender());
-        Users receiver = usersRepository.findByUsername(applicationRequest.getReceiver());
+        Optional<Users> senderOptional = usersRepository.findByUsername(applicationRequest.getSender());
+        Optional<Users> receiverOptional = usersRepository.findByUsername(applicationRequest.getReceiver());
+        if(senderOptional.isEmpty() || receiverOptional.isEmpty()){
+            return new ResponseEntity<>("The given sender and receiver doesn't exist.", HttpStatus.NOT_FOUND);
+        }
+
         String message = applicationRequest.getMessage();
         String resumeLink = applicationRequest.getResumeLink();
         int applicationId = applicationRequest.getApplicationId();
@@ -48,26 +53,31 @@ public class StudentsRestController {
             resume = new Resume();
             resume.setResumeLink(resumeLink);
         }
-        if(sender == null){
+        if(senderOptional.get() == null){
             return new ResponseEntity<>("Sender not found", HttpStatus.NOT_FOUND);
-        } else if (receiver == null) {
+        } else if (receiverOptional.get() == null) {
             return new ResponseEntity<>("Receiver not found", HttpStatus.NOT_FOUND);
         }
 
         if(createdApplicationOptional.isEmpty()){
             return new ResponseEntity<>("Application that you were trying to send is not found", HttpStatus.NOT_FOUND);
         }
-        SentApplication application = new SentApplication(createdApplicationOptional.get(), sender, receiver, message, resume);
+        SentApplication application = new SentApplication(createdApplicationOptional.get(), senderOptional.get(), receiverOptional.get(), message, resume);
         sentApplicationRepository.save(application);
 
         return new ResponseEntity<>("Successfully sent", HttpStatus.OK);
     }
 
     @GetMapping("/applications-list")
-    public List<SentApplication> applicationsList() {
+    public ResponseEntity<?> applicationsList() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        Users user = usersRepository.findByUsername(username);
-        return sentApplicationRepository.getStudentApplicationsList(user.getUserId());
+        Optional<Users> usersOptional = usersRepository.findByUsername(username);
+        if(usersOptional.isEmpty()){
+            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+        }
+        Users user = usersOptional.get();
+
+        return new ResponseEntity<>(sentApplicationRepository.getStudentApplicationsList(user.getUserId()), HttpStatus.OK);
     }
 
     @GetMapping("/hello")

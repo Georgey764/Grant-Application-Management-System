@@ -33,6 +33,12 @@ public class MyUserDetails {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @Column(name = "gpa")
+    private String gpa;
+
+    @Column(name = "classification")
+    private String classification;
+
     public MyUserDetails(Authorities authorities, String email, String department, String cwid, String firstName, String lastName) {
         this.authority = authorities;
         this.email = email;
@@ -42,7 +48,44 @@ public class MyUserDetails {
         this.lastName = lastName;
     }
 
+    public MyUserDetails(int userDetailsId, Users user, Authorities authority, String email, String department, String cwid, String firstName, String lastName, String gpa, String classification) {
+        this.userDetailsId = userDetailsId;
+        this.user = user;
+        this.authority = authority;
+        this.email = email;
+        this.department = department;
+        this.cwid = cwid;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gpa = gpa;
+        this.classification = classification;
+    }
+
     public MyUserDetails() {
+    }
+
+    public int getUserDetailsId() {
+        return userDetailsId;
+    }
+
+    public void setUserDetailsId(int userDetailsId) {
+        this.userDetailsId = userDetailsId;
+    }
+
+    public String getGpa() {
+        return gpa;
+    }
+
+    public void setGpa(String gpa) {
+        this.gpa = gpa;
+    }
+
+    public String getClassification() {
+        return classification;
+    }
+
+    public void setClassification(String classification) {
+        this.classification = classification;
     }
 
     public Users getUser() {

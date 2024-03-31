@@ -1,15 +1,15 @@
 package Emerging.App.Backend.JSON_Objects.Faculty;
 
-public class CreateApplicationRequest {
+public class CreateProjectRequest {
     private String projectName;
     private String projectDescription;
 
-    public CreateApplicationRequest(String projectName, String projectDescription) {
+    public CreateProjectRequest(String projectName, String projectDescription) {
         this.projectName = projectName;
         this.projectDescription = projectDescription;
     }
 
-    public CreateApplicationRequest() {
+    public CreateProjectRequest() {
     }
 
     public String getProjectName() {

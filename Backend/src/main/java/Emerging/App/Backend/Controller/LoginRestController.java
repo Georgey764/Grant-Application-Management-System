@@ -3,14 +3,12 @@ package Emerging.App.Backend.Controller;
 import Emerging.App.Backend.Entities.Authorities;
 import Emerging.App.Backend.Entities.MyUserDetails;
 import Emerging.App.Backend.Entities.Users;
-import Emerging.App.Backend.JSON_Objects.Authentication.AuthRequest;
-import Emerging.App.Backend.JSON_Objects.Authentication.AuthResponse;
-import Emerging.App.Backend.JSON_Objects.Authentication.ChangePasswordAuthRequest;
-import Emerging.App.Backend.JSON_Objects.Authentication.SignUpRequest;
+import Emerging.App.Backend.JSON_Objects.Authentication.*;
 import Emerging.App.Backend.JWT.JWTutil;
 import Emerging.App.Backend.Repository.AuthoritiesRepository;
 import Emerging.App.Backend.Repository.UserDetailsRepository;
 import Emerging.App.Backend.Repository.UsersRepository;
+import jakarta.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -47,8 +45,14 @@ public class LoginRestController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<String> signUp(@RequestBody SignUpRequest request){
+    public ResponseEntity<SignUpResponse> signUp(@RequestBody SignUpRequest request){
+        SignUpResponse response = new SignUpResponse();
         String email = request.getEmail();
+        String atAddress = email.substring(email.indexOf("@") + 1);
+        if(!atAddress.toUpperCase().equals("WARHAWKS.ULM.EDU") && !atAddress.toUpperCase().equals("ULM.EDU")){
+            response.setMessage("It must be a *@warhawks.ulm.edu or *@ulm.edu email");
+            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        }
         String department = request.getDepartment();
         String cwid = request.getCwid();
         String firstName = request.getFirstName();
@@ -60,11 +64,13 @@ public class LoginRestController {
         Authorities authority;
 
         if (email == null || department == null || cwid == null || firstName == null || lastName == null) {
-            return new ResponseEntity<>("All parameters must be non-null", HttpStatus.BAD_REQUEST);
+            response.setMessage("All parameters must be non-null");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
         if(!email.contains("@")){
-            return new ResponseEntity<>("Please enter a valid email", HttpStatus.BAD_REQUEST);
+            response.setMessage("Please enter a valid email");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
         String username = email.substring(0, email.indexOf('@'));
 
@@ -75,21 +81,44 @@ public class LoginRestController {
             userDetails.setUser(user);
             userDetailsRepository.save(userDetails);
         } else {
-            return new ResponseEntity<>("Authority not found", HttpStatus.NOT_FOUND);
+            response.setMessage("Authority not found");
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>("Successfully made an account", HttpStatus.OK);
+        response.setMessage("Successfully made an account");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthResponse> authenticate(@RequestBody AuthRequest request){
+        AuthResponse response = new AuthResponse();
+        response.setJwt(null);
+        String email = request.getemail();
+        if(!email.contains("@")){
+            response.setMessage("The email should contain @");
+            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        }
+        String username = email.substring(0, email.indexOf("@"));
+
+        Optional<Users> usersOptional = usersRepository.findByUsername(username);
+        if(usersOptional.isEmpty()){
+            response.setMessage("User not found");
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+        Users user = usersOptional.get();
+        if(!user.getUserDetails().getEmail().trim().equals(email)){
+            response.setMessage("User email doesn't match with system");
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
         try{
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, request.getPassword()));
         } catch (BadCredentialsException e){
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            response.setMessage("Password doesn't match");
+            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         }
         JWTutil instance = new JWTutil();
-        String jwt = instance.generateJWT(request.getUsername(), request.getPassword());
-        AuthResponse response = new AuthResponse(jwt);
+        String jwt = instance.generateJWT(username, request.getPassword());
+        response.setJwt(jwt);
+        response.setMessage("Successfully Authenticated");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

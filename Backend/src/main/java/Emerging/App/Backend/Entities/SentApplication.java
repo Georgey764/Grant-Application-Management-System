@@ -30,6 +30,9 @@ public class SentApplication {
     @JoinColumn(name = "resume_id")
     private Resume resume;
 
+    @Column(name = "decision")
+    private String decision;
+
     public SentApplication(CreatedApplication createdApplication, Users sender, Users receiver, String message, Resume resume) {
         this.createdApplication = createdApplication;
         this.sender = sender;
@@ -47,6 +50,14 @@ public class SentApplication {
 
     public void setCreatedApplication(CreatedApplication createdApplication) {
         this.createdApplication = createdApplication;
+    }
+
+    public String getDecision() {
+        return decision;
+    }
+
+    public void setDecision(String decision) {
+        this.decision = decision;
     }
 
     public int getSentApplicationId() {
