@@ -93,13 +93,13 @@ DROP TABLE IF EXISTS `created_application`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `created_application` (
   `application_id` int NOT NULL AUTO_INCREMENT,
-  `creator` int NOT NULL,
+  `creator` int DEFAULT NULL,
   `name` varchar(50) NOT NULL,
   `description` text NOT NULL,
   PRIMARY KEY (`application_id`),
-  KEY `fk_creator_capp` (`creator`),
+  UNIQUE KEY `creator` (`creator`),
   CONSTRAINT `fk_creator_capp` FOREIGN KEY (`creator`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,7 +108,7 @@ CREATE TABLE `created_application` (
 
 LOCK TABLES `created_application` WRITE;
 /*!40000 ALTER TABLE `created_application` DISABLE KEYS */;
-INSERT INTO `created_application` VALUES (1,669,'My Man','My Woman');
+INSERT INTO `created_application` VALUES (5,669,'Unnayan Project','Unnayan');
 /*!40000 ALTER TABLE `created_application` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -170,7 +170,7 @@ CREATE TABLE `resume` (
   `resume_id` int NOT NULL AUTO_INCREMENT,
   `resume_link` varchar(255) NOT NULL,
   PRIMARY KEY (`resume_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=303 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=403 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -179,7 +179,7 @@ CREATE TABLE `resume` (
 
 LOCK TABLES `resume` WRITE;
 /*!40000 ALTER TABLE `resume` DISABLE KEYS */;
-INSERT INTO `resume` VALUES (152,'https://www.youtube.com'),(202,'www.youtube.com');
+INSERT INTO `resume` VALUES (152,'https://www.youtube.com'),(202,'www.youtube.com'),(402,'www.youtube.com');
 /*!40000 ALTER TABLE `resume` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,7 +201,7 @@ CREATE TABLE `resume_seq` (
 
 LOCK TABLES `resume_seq` WRITE;
 /*!40000 ALTER TABLE `resume_seq` DISABLE KEYS */;
-INSERT INTO `resume_seq` VALUES (401);
+INSERT INTO `resume_seq` VALUES (501);
 /*!40000 ALTER TABLE `resume_seq` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -219,6 +219,7 @@ CREATE TABLE `sent_application` (
   `receiver` int NOT NULL,
   `message` text,
   `resume_id` int DEFAULT NULL,
+  `decision` varchar(50) NOT NULL DEFAULT (_utf8mb4'IN-PROGRESS'),
   PRIMARY KEY (`sent_application_id`),
   KEY `fk_sender_application` (`sender`),
   KEY `fk_receiver_application` (`receiver`),
@@ -228,7 +229,7 @@ CREATE TABLE `sent_application` (
   CONSTRAINT `fk_receiver_application` FOREIGN KEY (`receiver`) REFERENCES `users` (`user_id`),
   CONSTRAINT `fk_resumeId_resume` FOREIGN KEY (`resume_id`) REFERENCES `resume` (`resume_id`),
   CONSTRAINT `fk_sender_application` FOREIGN KEY (`sender`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -237,6 +238,7 @@ CREATE TABLE `sent_application` (
 
 LOCK TABLES `sent_application` WRITE;
 /*!40000 ALTER TABLE `sent_application` DISABLE KEYS */;
+INSERT INTO `sent_application` VALUES (2,5,663,669,'hi',402,'IN-PROGRESS');
 /*!40000 ALTER TABLE `sent_application` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -255,6 +257,8 @@ CREATE TABLE `user_details` (
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
   `authority_id` int NOT NULL,
+  `gpa` varchar(50) DEFAULT NULL,
+  `classification` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   KEY `FKaq3fakpdv385g0hcspx4y76li` (`authority_id`),
   CONSTRAINT `FKaq3fakpdv385g0hcspx4y76li` FOREIGN KEY (`authority_id`) REFERENCES `authorities` (`authority_id`),
@@ -268,7 +272,7 @@ CREATE TABLE `user_details` (
 
 LOCK TABLES `user_details` WRITE;
 /*!40000 ALTER TABLE `user_details` DISABLE KEYS */;
-INSERT INTO `user_details` VALUES (663,'30157203','Computer Science','gesad@gmail.com','George','Khawas',1),(668,'30157203','Computer Science','georgesamuel764@gmail.com','George','Khawas',1),(669,'21903','Comp Sci','hi@gmail.com','Georgey','Khawas',2);
+INSERT INTO `user_details` VALUES (663,'30157203','Computer Science','gesad@gmail.com','George','Khawas',1,NULL,NULL),(668,'30157203','Computer Science','georgesamuel764@gmail.com','George','Khawas',1,NULL,NULL),(669,'21903','Comp Sci','hi@gmail.com','Georgey','Khawas',2,NULL,NULL),(670,'asd','asd','asd@ulm.edu','asd','asd',2,NULL,NULL),(671,'123','asd','asdd@warhawks.ulm.edu','asdf','asd',1,NULL,NULL),(672,'30157204','Business Analysis','khawasmh@warhawks.ulm.edu','Mbarka','Khawas',1,NULL,NULL);
 /*!40000 ALTER TABLE `user_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -308,7 +312,7 @@ CREATE TABLE `users` (
   `password` varchar(72) NOT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=670 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=673 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -317,7 +321,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'john',1,'$2a$10$8NilyMVaSyYo08iZvrA.1Oqz5D67PoevBRg2AzQuLReTiKy0uUIcq'),(2,'elizabeth',1,'$2a$10$8NilyMVaSyYo08iZvrA.1Oqz5D67PoevBRg2AzQuLReTiKy0uUIcq'),(3,'mary',1,'$2a$10$8NilyMVaSyYo08iZvrA.1Oqz5D67PoevBRg2AzQuLReTiKy0uUIcq'),(663,'gesad',1,'$2a$10$jUSdB7lTP4ew1naoPskn6eVzUXEnfay5o2g5J/buOxRXc3fkFI79a'),(668,'georgesamuel764',1,'$2a$10$aw3csh.NGXmg4R8WKc6VmO6awwXhyvvGGHYDD4LSHDB7/piIJ/4MK'),(669,'hi',1,'$2a$10$8AJp9PsJwYG.Moi7umQZ4OnUpkk4VaCdwsOHF9kTS2qrZX8mEspdO');
+INSERT INTO `users` VALUES (1,'john',1,'$2a$10$8NilyMVaSyYo08iZvrA.1Oqz5D67PoevBRg2AzQuLReTiKy0uUIcq'),(2,'elizabeth',1,'$2a$10$8NilyMVaSyYo08iZvrA.1Oqz5D67PoevBRg2AzQuLReTiKy0uUIcq'),(3,'mary',1,'$2a$10$8NilyMVaSyYo08iZvrA.1Oqz5D67PoevBRg2AzQuLReTiKy0uUIcq'),(663,'gesad',1,'$2a$10$jUSdB7lTP4ew1naoPskn6eVzUXEnfay5o2g5J/buOxRXc3fkFI79a'),(668,'georgesamuel764',1,'$2a$10$aw3csh.NGXmg4R8WKc6VmO6awwXhyvvGGHYDD4LSHDB7/piIJ/4MK'),(669,'hi',1,'$2a$10$8AJp9PsJwYG.Moi7umQZ4OnUpkk4VaCdwsOHF9kTS2qrZX8mEspdO'),(670,'asd',1,'$2a$10$LtY2J9ic82x4OABzANNXp.5ZbzOgyPkgwpZPmf.q35vsYuwCcsh.m'),(671,'asdd',1,'$2a$10$XEuy32/fawYgiC/yrbNhd.7mlxtZmMHx48bpVVf157F6Bh5OsAipq'),(672,'khawasmh',1,'$2a$10$71Mqg0w8AxL1yag3qQrz5eQ2HJv09ndv9JaMa5CtXptujffYAw/se');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -352,4 +356,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-29 14:27:36
+-- Dump completed on 2024-03-31  2:00:23
