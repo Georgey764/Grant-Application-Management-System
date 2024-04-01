@@ -137,7 +137,7 @@ public class FacultyRestController {
     }
 
     @PostMapping("/project")
-    public ResponseEntity<?> createApplication(@RequestBody CreateProjectRequest request){
+    public ResponseEntity<String> createApplication(@RequestBody CreateProjectRequest request){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         String projectName = request.getProjectName();
         String projectDescription = request.getProjectDescription();

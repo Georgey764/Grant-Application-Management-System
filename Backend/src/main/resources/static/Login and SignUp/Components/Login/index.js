@@ -53,7 +53,6 @@ document.querySelector("#login_form_box").addEventListener("submit", (e) => {
         sessionStorage.setItem("jwt", data.jwt);
         window.location.href = onSuccessUrl;
       } else {
-        console.log(data.message);
         window.location.href =
           window.location.href.split("?")[0] +
           "?error=" +
