@@ -7,6 +7,8 @@ public class ApplicationRequest {
     private String receiver;
     private String message;
     private String resumeLink;
+    private String gpa;
+    private String classification;
 
     public ApplicationRequest(int applicationId, String sender, String receiver, String message, String resumeLink) {
         this.applicationId = applicationId;
@@ -16,7 +18,33 @@ public class ApplicationRequest {
         this.resumeLink = resumeLink;
     }
 
+    public ApplicationRequest(int applicationId, String sender, String receiver, String message, String resumeLink, String gpa, String classification) {
+        this.applicationId = applicationId;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.message = message;
+        this.resumeLink = resumeLink;
+        this.gpa = gpa;
+        this.classification = classification;
+    }
+
     public ApplicationRequest() {
+    }
+
+    public String getGpa() {
+        return gpa;
+    }
+
+    public void setGpa(String gpa) {
+        this.gpa = gpa;
+    }
+
+    public String getClassification() {
+        return classification;
+    }
+
+    public void setClassification(String classification) {
+        this.classification = classification;
     }
 
     public int getApplicationId() {

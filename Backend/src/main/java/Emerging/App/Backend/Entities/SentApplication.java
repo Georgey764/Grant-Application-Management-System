@@ -33,12 +33,28 @@ public class SentApplication {
     @Column(name = "decision")
     private String decision;
 
+    @Column(name = "gpa")
+    private String gpa;
+
+    @Column(name = "classification")
+    private String classification;
+
     public SentApplication(CreatedApplication createdApplication, Users sender, Users receiver, String message, Resume resume) {
         this.createdApplication = createdApplication;
         this.sender = sender;
         this.receiver = receiver;
         this.message = message;
         this.resume = resume;
+    }
+
+    public SentApplication(CreatedApplication createdApplication, Users sender, Users receiver, String message, Resume resume, String gpa, String classification) {
+        this.createdApplication = createdApplication;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.message = message;
+        this.resume = resume;
+        this.gpa = gpa;
+        this.classification = classification;
     }
 
     public SentApplication() {
@@ -50,6 +66,22 @@ public class SentApplication {
 
     public void setCreatedApplication(CreatedApplication createdApplication) {
         this.createdApplication = createdApplication;
+    }
+
+    public String getGpa() {
+        return gpa;
+    }
+
+    public void setGpa(String gpa) {
+        this.gpa = gpa;
+    }
+
+    public String getClassification() {
+        return classification;
+    }
+
+    public void setClassification(String classification) {
+        this.classification = classification;
     }
 
     public String getDecision() {
