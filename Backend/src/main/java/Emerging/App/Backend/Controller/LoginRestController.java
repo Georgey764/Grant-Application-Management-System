@@ -119,6 +119,7 @@ public class LoginRestController {
         String jwt = instance.generateJWT(username, request.getPassword());
         response.setJwt(jwt);
         response.setMessage("Successfully Authenticated");
+        response.setAuthority(user.getUserDetails().getAuthority().getAuthorityName());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

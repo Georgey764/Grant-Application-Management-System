@@ -6,6 +6,7 @@ public class FacultyReceivedApplicationsResponse {
     private String firstName;
     private String lastName;
     private String decision;
+    private String statusMessage;
 
     public FacultyReceivedApplicationsResponse(int sentApplicationId, String firstName, String lastName, String decision) {
         this.sentApplicationId = sentApplicationId;
@@ -15,6 +16,14 @@ public class FacultyReceivedApplicationsResponse {
     }
 
     public FacultyReceivedApplicationsResponse() {
+    }
+
+    public String getStatusMessage() {
+        return statusMessage;
+    }
+
+    public void setStatusMessage(String statusMessage) {
+        this.statusMessage = statusMessage;
     }
 
     public String getDecision() {

@@ -38,8 +38,10 @@ public class FacultyRestController {
     public ResponseEntity<?> getProject(){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<Users> usersOptional = usersRepository.findByUsername(username);
+        FacultyProjectResponse facultyProjectResponse = new FacultyProjectResponse();
         if(usersOptional.isEmpty()){
-            return new ResponseEntity<>("Given user doesn't exist", HttpStatus.NOT_FOUND);
+            facultyProjectResponse.setStatusMessage("Given user doesn't exist");
+            return new ResponseEntity<>(facultyProjectResponse, HttpStatus.NOT_FOUND);
         }
         Users user =usersOptional.get();
         int id = user.getUserId();
@@ -50,7 +52,11 @@ public class FacultyRestController {
         }
 
         CreatedApplication createdApplication = createdApplicationOptional.get();
-        FacultyProjectResponse facultyProjectResponse = new FacultyProjectResponse(createdApplication.getApplicationId(), createdApplication.getUser().getUsername(), createdApplication.getName(), createdApplication.getDescription());
+        facultyProjectResponse.setName(createdApplication.getName());
+        facultyProjectResponse.setDescription(createdApplication.getDescription());
+        facultyProjectResponse.setUsername(createdApplication.getUser().getUsername());
+        facultyProjectResponse.setApplicationId(createdApplication.getApplicationId());
+        facultyProjectResponse.setStatusMessage("Success");
         return new ResponseEntity<>(facultyProjectResponse, HttpStatus.OK);
     }
 
@@ -58,8 +64,10 @@ public class FacultyRestController {
     public ResponseEntity<?> getReceivedApplications(@RequestParam(name="search-query", required = false) String searchQuery){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<Users> usersOptional = usersRepository.findByUsername(username);
+        FacultyReceivedApplicationsResponse facultyReceivedApplicationsResponse = new FacultyReceivedApplicationsResponse();
         if(usersOptional.isEmpty()){
-            return new ResponseEntity<>("Given user doesn't exist", HttpStatus.NOT_FOUND);
+            facultyReceivedApplicationsResponse.setStatusMessage("Given user doesn't exist");
+            return new ResponseEntity<>(facultyReceivedApplicationsResponse, HttpStatus.NOT_FOUND);
         }
         Users user =usersOptional.get();
         int id = user.getUserId();

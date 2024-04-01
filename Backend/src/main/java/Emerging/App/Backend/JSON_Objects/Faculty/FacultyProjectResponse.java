@@ -6,6 +6,7 @@ public class FacultyProjectResponse {
     private String username;
     private String name;
     private String description;
+    private String statusMessage;
 
     public FacultyProjectResponse(int applicationId, String username, String name, String description) {
         this.applicationId = applicationId;
@@ -47,5 +48,13 @@ public class FacultyProjectResponse {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getStatusMessage() {
+        return statusMessage;
+    }
+
+    public void setStatusMessage(String statusMessage) {
+        this.statusMessage = statusMessage;
     }
 }
