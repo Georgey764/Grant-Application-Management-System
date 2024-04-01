@@ -48,6 +48,7 @@ public class FacultyRestController {
         Optional<CreatedApplication> createdApplicationOptional = createdApplicationRepository.findByCreatorUserId(id);
 
         if(createdApplicationOptional.isEmpty()){
+            facultyProjectResponse.setStatusMessage("No applications were found.");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
