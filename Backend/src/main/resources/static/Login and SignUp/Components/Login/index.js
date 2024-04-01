@@ -1,6 +1,8 @@
 const signUp = document.getElementById("sign_up");
 const logInUrl = "http://localhost:8080/authenticate";
-const onSuccessUrl = "https://www.youtube.com";
+const onSuccessFacultyUrl = "https://www.youtube.com";
+const onSuccessStudentUrl = "https://www.youtube.com";
+const onSuccessAdminUrl = "https://www.youtube.com";
 
 const urlParams = new URLSearchParams(window.location.search);
 if (urlParams.has("error")) {
@@ -51,7 +53,13 @@ document.querySelector("#login_form_box").addEventListener("submit", (e) => {
     .then((data) => {
       if (data.jwt != null) {
         sessionStorage.setItem("jwt", data.jwt);
-        window.location.href = onSuccessUrl;
+        if (data.authority == "ROLE_STUDENT") {
+          window.location.href = onSuccessStudentUrl;
+        } else if (data.authority == "ROLE_FACULTY") {
+          window.location.href = onSuccessFacultyUrl;
+        } else if (data.authority == "ROLE_ADMIN") {
+          window.location.href = onSuccessAdminUrl;
+        }
       } else {
         window.location.href =
           window.location.href.split("?")[0] +

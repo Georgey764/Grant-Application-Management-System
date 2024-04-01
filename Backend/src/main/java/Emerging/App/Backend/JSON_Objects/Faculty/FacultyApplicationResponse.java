@@ -11,6 +11,7 @@ public class FacultyApplicationResponse {
     private String resumeLink;
     private String message;
     private String decision;
+    private String statusMessage;
 
     public FacultyApplicationResponse(String firstName, String lastName, String department, String cwid, String gpa, String classification, String resumeLink, String message, String decision) {
         this.firstName = firstName;
@@ -25,6 +26,14 @@ public class FacultyApplicationResponse {
     }
 
     public FacultyApplicationResponse() {
+    }
+
+    public String getStatusMessage() {
+        return statusMessage;
+    }
+
+    public void setStatusMessage(String statusMessage) {
+        this.statusMessage = statusMessage;
     }
 
     public String getFirstName() {

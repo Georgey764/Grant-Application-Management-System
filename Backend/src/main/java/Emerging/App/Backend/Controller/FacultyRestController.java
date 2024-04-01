@@ -102,26 +102,29 @@ public class FacultyRestController {
     }
 
     @GetMapping("/application")
-    public ResponseEntity<?> getApplication(@RequestParam(name = "sent-application-id") int sentApplicationId){
+    public ResponseEntity<FacultyApplicationResponse> getApplication(@RequestParam(name = "sent-application-id", required = true) int sentApplicationId){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<Users> usersOptional = usersRepository.findByUsername(username);
+        FacultyApplicationResponse response = new FacultyApplicationResponse();
         if(usersOptional.isEmpty()){
-            return new ResponseEntity<>("Given user doesn't exist", HttpStatus.NOT_FOUND);
+            response.setStatusMessage("Given user doesn't exist");
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         Users user = usersOptional.get();
         int id = user.getUserId();
 
         Optional<SentApplication> sentApplicationOptional = sentApplicationRepository.findById(sentApplicationId);
         if(sentApplicationOptional.isEmpty()){
-            return new ResponseEntity<>("The provided sent application id doesn't exist", HttpStatus.NOT_FOUND);
+            response.setStatusMessage("The provided sent application id doesn't exist");
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         if(id != sentApplicationOptional.get().getReceiver().getUserId()){
-            return new ResponseEntity<>("The given sent application id is not accessible by the current user.", HttpStatus.UNAUTHORIZED);
+            response.setStatusMessage("The given sent application id is not accessible by the current user.");
+            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         }
 
         SentApplication sentApplication = sentApplicationOptional.get();
         MyUserDetails senderDetails = sentApplication.getSender().getUserDetails();
-        FacultyApplicationResponse response = new FacultyApplicationResponse();
 
         response.setFirstName(senderDetails.getFirstName());
         response.setLastName(senderDetails.getLastName());
@@ -132,8 +135,9 @@ public class FacultyRestController {
         response.setMessage(sentApplication.getMessage());
         response.setGpa(senderDetails.getGpa());
         response.setDecision(sentApplication.getDecision());
+        response.setStatusMessage("Success");
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/project")
@@ -207,7 +211,7 @@ public class FacultyRestController {
         Users user = usersOptional.get();
         int userId = user.getUserId();
 
-        if(decision.toUpperCase() != "ACCEPT" || decision.toUpperCase() != "DECLINE" ){
+        if(!decision.toUpperCase().equals("ACCEPT")  && !decision.toUpperCase().equals("DECLINE") ){
             return new ResponseEntity<>("The decision has to be either 'accept' or 'decline'", HttpStatus.BAD_REQUEST);
         }
 
