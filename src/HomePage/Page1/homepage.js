@@ -6,7 +6,7 @@ import HaveProject from "../DivComponents/NewProject/HaveProject";
 import StudentInfo from "../DivComponents/NewProject/StudentInfo";
 import MyAccount from "../DivComponents/NewProject/MyAccount";
 import StudentComponent from "../DivComponents/NewProject/StudentComponent";
-import axios from "axios";
+import axios, { HttpStatusCode } from "axios";
 
 function HomePage() {
   const [studentData, setStudentData] = useState(null);
@@ -14,6 +14,7 @@ function HomePage() {
     project_name: "",
     description: "",
     application_id: "",
+    statusMessage: "",
   });
   const [component, setComponent] = useState("ProjectDisplay");
 
@@ -21,33 +22,43 @@ function HomePage() {
     "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoaSIsImlzcyI6Ikdlb3JnZSdzIEJhY2tlbmQiLCJpYXQiOjE3MTE5MDI5NjJ9.JFq44j_rxV-pJ5EHs3IizCRwv7MH7DuGLQmCBBw4j64";
 
   useEffect(() => {
+    const loadResult = async () => {
+      axios
+        .get("http://localhost:8080/faculty/project", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwtCode}`,
+          },
+        })
+        .then((response) => {
+          const { data } = response;
+          const newData = {
+            application_id: data.applicationId,
+            description: data.description,
+            project_name: data.name,
+            statusMessage: data.statusMessage,
+          };
+          setProject(newData);
+          if (data.statusMessage === "No applications were found.") {
+            project.description = "";
+            project.project_name = "";
+          }
+        })
+        .catch((error) => {
+          if (error === HttpStatusCode.NotFound) {
+            project.project_name = "";
+            project.description = "";
+          }
+        });
+    };
     loadResult();
   }, []);
 
-  const loadResult = async () => {
-    axios
-      .get("http://localhost:8080/faculty/project", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${jwtCode}`,
-        },
-      })
-      .then((response) => {
-        const { data } = response;
-        const newData = {
-          application_id: data.applicationId,
-          description: data.description,
-          project_name: data.name,
-        };
-        setProject(newData);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  };
-
   const handleEditClick = () => {
     setComponent("CreateProject"); // Update component state to display CreateProject
+  };
+  const isCreateClicked = () => {
+    setComponent("CreateProject");
   };
 
   return (
@@ -112,8 +123,8 @@ function HomePage() {
           {component === "MyAccount" && <MyAccount />}
           {component === "ProjectDisplay" && (
             <>
-              {project.project_name && project.description ? (
-                <EmptyProject />
+              {!(project.project_name && project.description) ? (
+                <EmptyProject clickCreate={isCreateClicked} />
               ) : (
                 <HaveProject project={project} onEditClick={handleEditClick} />
               )}

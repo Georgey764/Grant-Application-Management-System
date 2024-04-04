@@ -9,29 +9,28 @@ function CreateProject(props) {
 
   const [formData, setFormData] = useState(initialFormData);
 
+  const jwtToken =
+    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoaSIsImlzcyI6Ikdlb3JnZSdzIEJhY2tlbmQiLCJpYXQiOjE3MTE5MDI5NjJ9.JFq44j_rxV-pJ5EHs3IizCRwv7MH7DuGLQmCBBw4j64";
+
+  const url = "http://localhost:8080/faculty/project";
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${jwtToken}`,
+    },
+  };
+
+  const requestBody = {
+    projectName: formData.project_name,
+    projectDescription: formData.project_description,
+  };
   function handleSubmit(event) {
     event.preventDefault();
-    // if (formData.project_name === "" && formData.project_description === "") {
-    //   return;
-    // }
+    const method = props.data.project_name ? "put" : "post";
 
-    const jwtToken =
-      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoaSIsImlzcyI6Ikdlb3JnZSdzIEJhY2tlbmQiLCJpYXQiOjE3MTE5MDI5NjJ9.JFq44j_rxV-pJ5EHs3IizCRwv7MH7DuGLQmCBBw4j64";
-    const url = "http://localhost:8080/faculty/project";
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${jwtToken}`,
-      },
-    };
-    const method = props.data ? "put" : "post";
-
-    const requestBody = {
-      projectName: formData.project_name,
-      projectDescription: formData.project_description,
-    };
     axios[method](url, requestBody, config)
       .then((response) => {
+        console.log(response);
         window.location.reload();
       })
       .catch((error) => console.log(error));
@@ -39,17 +38,14 @@ function CreateProject(props) {
 
   function handleDelete() {
     // Reset form data to initial values
-    setFormData({
-      project_name: "",
-      project_description: "",
-    });
-    // axios
-    //   .delete(url, config)
-    //   .then((response) => {
-    //     console.log("Deleted Successfully");
-    //     window.location.reload();
-    //   })
-    //   .catch((error) => console.log(error));
+    setFormData(initialFormData);
+    axios
+      .delete(url, config)
+      .then((response) => {
+        console.log(response);
+        window.location.reload();
+      })
+      .catch((error) => console.log(error));
   }
 
   return (

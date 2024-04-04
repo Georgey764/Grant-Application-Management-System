@@ -1,6 +1,7 @@
 import React from 'react'
 
-function EmptyProject() {
+function EmptyProject({clickCreate}) {
+  
   return (
     <div className="new_project m-5">
 
@@ -13,7 +14,7 @@ function EmptyProject() {
             </div>
         </div>
         <div className="action_buttons mt-5 d-flex justify-content-end">
-            <button type="button" className="btn btn-success px-4" id = "create_button">
+            <button type="button" className="btn btn-success px-4" id = "create_button" onClick = {()=>clickCreate(true) }>
               Create
             </button>
         </div>
