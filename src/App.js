@@ -1,5 +1,6 @@
 import './App.css';
 import MergeComponents from './HomePage/MergeComponents';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (

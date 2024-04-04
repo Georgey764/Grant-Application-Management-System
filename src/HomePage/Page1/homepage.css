@@ -1,5 +1,18 @@
-.row{
+#homepage #homepage-row{
     margin:0;
     padding:0;
     height: 100vh;
+}
+#homepage #applicants_block{
+    height: 400px; 
+    background-color: #f0f0f0;
+    overflow-y: auto;
+
+}
+
+#homepage #col-1{
+    background-color: rgb(134 37 51);;
+}
+#homepage .buttons button{
+    width: 80%;
 }
