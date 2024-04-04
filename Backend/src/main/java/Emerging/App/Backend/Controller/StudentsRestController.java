@@ -97,7 +97,7 @@ public class StudentsRestController {
         Optional<Users> senderOptional = usersRepository.findByUsername(applicationRequest.getSender());
         Optional<Users> receiverOptional = usersRepository.findByUsername(applicationRequest.getReceiver());
         if(senderOptional.isEmpty() || receiverOptional.isEmpty()){
-            return new ResponseEntity<>("The given sender and receiver doesn't exist.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("The given sender and receiver doesn't exist.", HttpStatus.OK);
         }
 
         String message = applicationRequest.getMessage();
@@ -113,13 +113,13 @@ public class StudentsRestController {
             resume.setResumeLink(resumeLink);
         }
         if(senderOptional.get() == null){
-            return new ResponseEntity<>("Sender not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Sender not found", HttpStatus.OK);
         } else if (receiverOptional.get() == null) {
-            return new ResponseEntity<>("Receiver not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Receiver not found", HttpStatus.OK);
         }
 
         if(createdApplicationOptional.isEmpty()){
-            return new ResponseEntity<>("Application that you were trying to send is not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Application that you were trying to send is not found", HttpStatus.OK);
         }
         SentApplication application = new SentApplication(createdApplicationOptional.get(), senderOptional.get(), receiverOptional.get(), message, resume, gpa, classification);
         sentApplicationRepository.save(application);
@@ -185,7 +185,7 @@ public class StudentsRestController {
     public ResponseEntity<String> deleteApplication(@PathVariable(value = "sent-application-id", required = true) int sentApplicationId){
         Optional<SentApplication> toDeleteOptional = sentApplicationRepository.findById(sentApplicationId);
         if(toDeleteOptional.isEmpty()){
-            return new ResponseEntity<>("The sent application with the provided id was not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("The sent application with the provided id was not found", HttpStatus.OK);
         }
         SentApplication toDelete = toDeleteOptional.get();
         sentApplicationRepository.delete(toDelete);
