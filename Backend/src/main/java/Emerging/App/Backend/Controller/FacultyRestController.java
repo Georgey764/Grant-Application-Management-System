@@ -51,7 +51,7 @@ public class FacultyRestController {
 
         if(createdApplicationOptional.isEmpty()){
             facultyProjectResponse.setStatusMessage("No applications were found.");
-            return new ResponseEntity<>(facultyProjectResponse, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(facultyProjectResponse, HttpStatus.OK);
         }
 
         CreatedApplication createdApplication = createdApplicationOptional.get();
@@ -119,11 +119,11 @@ public class FacultyRestController {
         Optional<SentApplication> sentApplicationOptional = sentApplicationRepository.findById(sentApplicationId);
         if(sentApplicationOptional.isEmpty()){
             response.setStatusMessage("The provided sent application id doesn't exist");
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
         if(id != sentApplicationOptional.get().getReceiver().getUserId()){
             response.setStatusMessage("The given sent application id is not accessible by the current user.");
-            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
 
         SentApplication sentApplication = sentApplicationOptional.get();
@@ -166,7 +166,7 @@ public class FacultyRestController {
         String updatedProjectDescription = request.getProjectDescription();
 
         if(updatedProjectName == null || updatedProjectDescription == null){
-            return new ResponseEntity<>("projectName and projectDescription must be in the header and not be null", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("projectName and projectDescription must be in the header and not be null", HttpStatus.OK);
         }
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -178,7 +178,7 @@ public class FacultyRestController {
 
         Optional<CreatedApplication> createdApplicationOptional = createdApplicationRepository.findByCreatorUserId(ourUser.getUserId());
         if(createdApplicationOptional.isEmpty()){
-            return new ResponseEntity<>("Nothing to edit", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Nothing to edit", HttpStatus.OK);
         }
 
         createdApplicationOptional.get().setName(updatedProjectName);
@@ -219,15 +219,15 @@ public class FacultyRestController {
         int userId = user.getUserId();
 
         if(!decision.toUpperCase().equals("ACCEPT")  && !decision.toUpperCase().equals("DECLINE") ){
-            return new ResponseEntity<>("The decision has to be either 'accept' or 'decline'", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("The decision has to be either 'accept' or 'decline'", HttpStatus.OK);
         }
 
         Optional<SentApplication> sentApplicationOptional = sentApplicationRepository.findById(sentApplicationId);
         if(sentApplicationOptional.isEmpty()){
-            return new ResponseEntity<>("The sent applications with the given id was not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("The sent applications with the given id was not found", HttpStatus.OK);
         }
         if(sentApplicationOptional.get().getReceiver().getUserId() != userId){
-            return new ResponseEntity<>("You don't have the permission to change this application's decision", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>("You don't have the permission to change this application's decision", HttpStatus.OK);
         }
         sentApplicationOptional.get().setDecision(decision.toUpperCase());
         sentApplicationRepository.flush();
