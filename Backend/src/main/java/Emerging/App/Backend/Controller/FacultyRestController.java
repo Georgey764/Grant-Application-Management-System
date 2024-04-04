@@ -45,13 +45,13 @@ public class FacultyRestController {
             facultyProjectResponse.setStatusMessage("Given user doesn't exist");
             return new ResponseEntity<>(facultyProjectResponse, HttpStatus.NOT_FOUND);
         }
-        Users user =usersOptional.get();
+        Users user = usersOptional.get();
         int id = user.getUserId();
         Optional<CreatedApplication> createdApplicationOptional = createdApplicationRepository.findByCreatorUserId(id);
 
         if(createdApplicationOptional.isEmpty()){
             facultyProjectResponse.setStatusMessage("No applications were found.");
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(facultyProjectResponse, HttpStatus.NOT_FOUND);
         }
 
         CreatedApplication createdApplication = createdApplicationOptional.get();
@@ -119,7 +119,7 @@ public class FacultyRestController {
         Optional<SentApplication> sentApplicationOptional = sentApplicationRepository.findById(sentApplicationId);
         if(sentApplicationOptional.isEmpty()){
             response.setStatusMessage("The provided sent application id doesn't exist");
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         if(id != sentApplicationOptional.get().getReceiver().getUserId()){
             response.setStatusMessage("The given sent application id is not accessible by the current user.");
@@ -178,7 +178,7 @@ public class FacultyRestController {
 
         Optional<CreatedApplication> createdApplicationOptional = createdApplicationRepository.findByCreatorUserId(ourUser.getUserId());
         if(createdApplicationOptional.isEmpty()){
-            return new ResponseEntity<>("Nothing to edit", HttpStatus.OK);
+            return new ResponseEntity<>("Nothing to edit", HttpStatus.NOT_FOUND);
         }
 
         createdApplicationOptional.get().setName(updatedProjectName);
@@ -219,15 +219,15 @@ public class FacultyRestController {
         int userId = user.getUserId();
 
         if(!decision.toUpperCase().equals("ACCEPT")  && !decision.toUpperCase().equals("DECLINE") ){
-            return new ResponseEntity<>("The decision has to be either 'accept' or 'decline'", HttpStatus.OK);
+            return new ResponseEntity<>("The decision has to be either 'accept' or 'decline'", HttpStatus.BAD_REQUEST);
         }
 
         Optional<SentApplication> sentApplicationOptional = sentApplicationRepository.findById(sentApplicationId);
         if(sentApplicationOptional.isEmpty()){
-            return new ResponseEntity<>("The sent applications with the given id was not found", HttpStatus.OK);
+            return new ResponseEntity<>("The sent applications with the given id was not found", HttpStatus.NOT_FOUND);
         }
         if(sentApplicationOptional.get().getReceiver().getUserId() != userId){
-            return new ResponseEntity<>("You don't have the permission to change this application's decision", HttpStatus.OK);
+            return new ResponseEntity<>("You don't have the permission to change this application's decision", HttpStatus.UNAUTHORIZED);
         }
         sentApplicationOptional.get().setDecision(decision.toUpperCase());
         sentApplicationRepository.flush();
