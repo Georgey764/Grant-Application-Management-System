@@ -18,6 +18,7 @@ function HaveProject(props) {
             height: "400px",
             backgroundColor: "#f0f0f0",
             overflowY: "auto",
+            padding: 10,
           }}
         >
           {props.project.description}
