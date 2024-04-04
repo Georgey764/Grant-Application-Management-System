@@ -165,6 +165,10 @@ public class FacultyRestController {
         String updatedProjectName = request.getProjectName();
         String updatedProjectDescription = request.getProjectDescription();
 
+        if(updatedProjectName == null || updatedProjectDescription == null){
+            return new ResponseEntity<>("projectName and projectDescription must be in the header and not be null", HttpStatus.NOT_FOUND);
+        }
+
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<Users> usersOptional = usersRepository.findByUsername(username);
         if(usersOptional.isEmpty()){
