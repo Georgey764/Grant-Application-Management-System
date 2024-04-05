@@ -8,6 +8,7 @@ import Emerging.App.Backend.JWT.JWTutil;
 import Emerging.App.Backend.Repository.AuthoritiesRepository;
 import Emerging.App.Backend.Repository.UserDetailsRepository;
 import Emerging.App.Backend.Repository.UsersRepository;
+import io.jsonwebtoken.Jwt;
 import jakarta.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -17,6 +18,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -88,6 +90,12 @@ public class LoginRestController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/authority")
+    public ResponseEntity<String> authority(){
+        String roleArrayString = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        return new ResponseEntity<>(roleArrayString.substring(roleArrayString.indexOf("_") + 1, roleArrayString.length() - 1), HttpStatus.OK);
+    }
+
     @PostMapping("/authenticate")
     public ResponseEntity<AuthResponse> authenticate(@RequestBody AuthRequest request){
         AuthResponse response = new AuthResponse();
@@ -119,7 +127,6 @@ public class LoginRestController {
         String jwt = instance.generateJWT(username, request.getPassword());
         response.setJwt(jwt);
         response.setMessage("Successfully Authenticated");
-        response.setAuthority(user.getUserDetails().getAuthority().getAuthorityName());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
