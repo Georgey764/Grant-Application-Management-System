@@ -96,7 +96,7 @@ public class LoginRestController {
         return new ResponseEntity<>(roleArrayString.substring(roleArrayString.indexOf("_") + 1, roleArrayString.length() - 1), HttpStatus.OK);
     }
 
-    @PostMapping("/authenticate")
+    @PostMapping("/authenticate") 
     public ResponseEntity<AuthResponse> authenticate(@RequestBody AuthRequest request){
         AuthResponse response = new AuthResponse();
         response.setJwt(null);
