@@ -1,10 +1,10 @@
 import React from 'react';
-import HomePage from './Page1/homepage.js';
+import HomePageStudent from "./Page1/HomePageStudent";
 
 function MergeComponents() {
   return (
     <div>
-        <HomePage/>
+        <HomePageStudent/>
     </div>
   )
 }
