@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./homepage.css";
-import CreateProject from "../DivComponents/NewProject/CreateProject";
-import EmptyProject from "../DivComponents/NewProject/EmptyProject";
-import HaveProject from "../DivComponents/NewProject/HaveProject";
-import StudentInfo from "../DivComponents/NewProject/StudentInfo";
-import MyAccount from "../DivComponents/NewProject/MyAccount";
+import CreateProject from "../DivComponents/NewProject/CreateProjectProfessor";
+import EmptyProject from "../DivComponents/NewProject/EmptyProjectProfessor";
+import HaveProject from "../DivComponents/NewProject/HaveProjectProfessor";
+import StudentInfo from "../DivComponents/NewProject/StudentInfoProfessor";
+import MyAccount from "../DivComponents/NewProject/MyAccountProfessor";
 import StudentComponent from "../DivComponents/NewProject/StudentComponent";
 import axios, { HttpStatusCode } from "axios";
 
@@ -16,13 +16,14 @@ function HomePage() {
     application_id: "",
     statusMessage: "",
   });
+  const query = "g";
   const [component, setComponent] = useState("ProjectDisplay");
 
   const jwtCode =
     "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoaSIsImlzcyI6Ikdlb3JnZSdzIEJhY2tlbmQiLCJpYXQiOjE3MTE5MDI5NjJ9.JFq44j_rxV-pJ5EHs3IizCRwv7MH7DuGLQmCBBw4j64";
 
   useEffect(() => {
-    const loadResult = async () => {
+    const loadFaculty = async () => {
       axios
         .get("http://localhost:8080/faculty/project", {
           headers: {
@@ -51,8 +52,18 @@ function HomePage() {
           }
         });
     };
-    loadResult();
-  }, []);
+    loadFaculty();
+    const loadStudentData = async() => {
+      axios.get(("http://localhost:8080/faculty/received-applications?search-query="+ query),{
+        headers:{
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwtCode}`,
+    }}).then(response =>{
+      console.log(response);
+    })
+  }
+  loadStudentData();
+}, []);
 
   const handleEditClick = () => {
     setComponent("CreateProject"); // Update component state to display CreateProject
@@ -118,7 +129,7 @@ function HomePage() {
             </button>
           </div>
         </div>
-
+        
         <div className="col-md-8">
           {component === "MyAccount" && <MyAccount />}
           {component === "ProjectDisplay" && (

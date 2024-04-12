@@ -1,7 +1,33 @@
-import React from "react";
+import { React, useEffect } from "react";
 import "./HomePageStudent.css";
+import EmptyProjectStudent from "./DivComponents/EmptyProjectStudent";
+import CreateApplication from "./DivComponents/CreateApplication";
+import axios, { HttpStatusCode } from "axios";
 
+const query = "";
 function HomePage() {
+  const jwtCode =
+    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnZXNhZCIsImlzcyI6Ikdlb3JnZSdzIEJhY2tlbmQiLCJpYXQiOjE3MTIyNTE2NTd9.TylyvptzvuTC8y-cLLpABIjlFtcTd0KDOA0gxShRXE8";
+
+  useEffect(() => {
+    const professorInfo = async () => {
+      axios
+        .get(
+          "http://localhost:8080/students/created-applications-list?search-query=" +
+            query,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${jwtCode}`,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response);
+        });
+    };
+    professorInfo();
+  }, []);
   return (
     // HomePage for the professor
     <div className="homepage" id="homepage_student">
@@ -49,7 +75,7 @@ function HomePage() {
         </div>
 
         <div className="col-md-8">
-          
+          <CreateApplication />
         </div>
       </div>
     </div>
