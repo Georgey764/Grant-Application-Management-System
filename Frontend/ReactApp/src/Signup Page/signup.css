@@ -1,0 +1,106 @@
+/** SignUp Box top part that contains the logo of ULM */
+.signup_box_logo {
+  background-color: rgb(134 37 51);
+  width: 100%;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+/** ULM logo */
+.ulm_logo {
+  display: block;
+  margin: 0px auto;
+  max-width: 280px;
+  max-height: 60px;
+  width: auto;
+  height: auto;
+  cursor: pointer;
+}
+
+#signup_form_box {
+  padding-top: 50px;
+}
+
+.signup_form .form_layout {
+  display: flex;
+  overflow-wrap: break-word;
+}
+.signup_form .form_layout .column_1 {
+  display: flex;
+  flex-direction: column;
+  margin-left: 50px;
+}
+.form_layout input {
+  font-size: 16px;
+  color: rgb(78, 81, 81);
+  height: 48px;
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid rgb(222, 224, 224);
+  border-radius: 2px;
+  padding: 2px 10px;
+  line-height: normal;
+  margin-top: 10px;
+  margin-bottom: 24px;
+}
+.signup_form .form_layout .column_2 {
+  display: flex;
+  flex-direction: column;
+  margin-left: 50px;
+}
+
+.signup_form .form_layout .column_2 #agree {
+  width: 15px;
+  height: 15px;
+}
+
+.signup_form .form_layout .column_3 {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  margin: 0px 50px 0px 50px;
+}
+
+#submit_form {
+  height: 45px;
+  width: 100%;
+  font-size: 18px;
+  background-color: rgb(88, 89, 89);
+  color: white;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 0.3rem;
+}
+#submit_form:hover {
+  cursor: pointer;
+  background-color: rgb(88, 80, 90);
+}
+#login_ref {
+  color: rgb(7 118 157);
+  padding-bottom: 30px;
+}
+#login_ref:hover {
+  color: rgb(12, 171, 233);
+  cursor: pointer;
+}
+
+.signup_form {
+  position: relative;
+}
+
+#error_div {
+  width: 100%;
+  height: 2rem;
+  background-color: red;
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}

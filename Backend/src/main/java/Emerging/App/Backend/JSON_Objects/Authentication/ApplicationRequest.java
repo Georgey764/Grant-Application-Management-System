@@ -3,25 +3,19 @@ package Emerging.App.Backend.JSON_Objects.Authentication;
 public class ApplicationRequest {
 
     private int applicationId;
-    private String sender;
-    private String receiver;
     private String message;
     private String resumeLink;
     private String gpa;
     private String classification;
 
-    public ApplicationRequest(int applicationId, String sender, String receiver, String message, String resumeLink) {
+    public ApplicationRequest(int applicationId, String sender, String message, String resumeLink) {
         this.applicationId = applicationId;
-        this.sender = sender;
-        this.receiver = receiver;
         this.message = message;
         this.resumeLink = resumeLink;
     }
 
-    public ApplicationRequest(int applicationId, String sender, String receiver, String message, String resumeLink, String gpa, String classification) {
+    public ApplicationRequest(int applicationId, String sender, String message, String resumeLink, String gpa, String classification) {
         this.applicationId = applicationId;
-        this.sender = sender;
-        this.receiver = receiver;
         this.message = message;
         this.resumeLink = resumeLink;
         this.gpa = gpa;
@@ -53,22 +47,6 @@ public class ApplicationRequest {
 
     public void setApplicationId(int applicationId) {
         this.applicationId = applicationId;
-    }
-
-    public String getSender() {
-        return sender;
-    }
-
-    public void setSender(String sender) {
-        this.sender = sender;
-    }
-
-    public String getReceiver() {
-        return receiver;
-    }
-
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
     }
 
     public String getMessage() {

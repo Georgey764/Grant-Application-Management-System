@@ -17,10 +17,10 @@ public interface SentApplicationRepository extends JpaRepository<SentApplication
 
     // For Students
     @Query("SELECT u.createdApplication.applicationId FROM SentApplication u WHERE u.sender.userId = :userId")
-    Set<Integer> getSentApplicationsCreatedApplicationId(@Param("userId") int userId);
+    List<Integer> getSentApplicationsCreatedApplicationId(@Param("userId") int userId);
 
     @Query("SELECT u FROM SentApplication u WHERE u.createdApplication.applicationId = :createdApplicationId")
-    SentApplication getStudentsSentApplicationFromCreatedApplication(@Param("createdApplicationId") int createdApplicationId);
+    List<SentApplication> getStudentsSentApplicationFromCreatedApplication(@Param("createdApplicationId") int createdApplicationId);
 
     @Query("SELECT u FROM SentApplication u WHERE u.sender.userId = :userId")
     List<SentApplication> getStudentApplicationsList(@Param("userId") int userId);

@@ -10,6 +10,7 @@ import Emerging.App.Backend.Repository.UserDetailsRepository;
 import Emerging.App.Backend.Repository.UsersRepository;
 import io.jsonwebtoken.Jwt;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ import java.util.Optional;
 @RequestMapping("")
 public class LoginRestController {
 
+    private String requestingDomain = "localhost";
     private AuthenticationManager authenticationManager;
     private UsersRepository usersRepository;
     private PasswordEncoder passwordEncoder;
@@ -90,44 +92,87 @@ public class LoginRestController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/authority")
-    public ResponseEntity<String> authority(){
-        String roleArrayString = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
-        return new ResponseEntity<>(roleArrayString.substring(roleArrayString.indexOf("_") + 1, roleArrayString.length() - 1), HttpStatus.OK);
-    }
+//    @PostMapping("/authenticate")
+//    public ResponseEntity<AuthResponse> authenticate(@RequestBody AuthRequest request){
+//        AuthResponse response = new AuthResponse();
+//        response.setJwt(null);
+//        String email = request.getemail();
+//        if(!email.contains("@")){
+//            response.setMessage("The email should contain @");
+//            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+//        }
+//        String username = email.substring(0, email.indexOf("@"));
+//
+//        Optional<Users> usersOptional = usersRepository.findByUsername(username);
+//        if(usersOptional.isEmpty()){
+//            response.setMessage("User not found");
+//            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+//        }
+//        Users user = usersOptional.get();
+//        if(!user.getUserDetails().getEmail().trim().equals(email)){
+//            response.setMessage("User email doesn't match with system");
+//            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+//        }
+//        try{
+//            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, request.getPassword()));
+//        } catch (BadCredentialsException e){
+//            response.setMessage("Password doesn't match");
+//            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+//        }
+//        JWTutil instance = new JWTutil();
+//        String jwt = instance.generateJWT(username, request.getPassword());
+//        response.setJwt(jwt);
+//        response.setMessage("Successfully Authenticated");
+//        response.setAuthority(user.getUserDetails().getAuthority().getAuthorityName());
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
 
-    @PostMapping("/authenticate") 
-    public ResponseEntity<AuthResponse> authenticate(@RequestBody AuthRequest request){
-        AuthResponse response = new AuthResponse();
-        response.setJwt(null);
+    @PostMapping("/authenticate")
+    public ResponseEntity<?> authenticate(@RequestBody AuthRequest request, HttpServletResponse response){
+        AuthResponse authResponse = new AuthResponse();
+
         String email = request.getemail();
+
+        if(email == null){
+            authResponse.setMessage("The email should not be null");
+            return new ResponseEntity<>(authResponse, HttpStatus.UNAUTHORIZED);
+        }
+
         if(!email.contains("@")){
-            response.setMessage("The email should contain @");
-            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>("The email should contain @", HttpStatus.UNAUTHORIZED);
         }
         String username = email.substring(0, email.indexOf("@"));
 
         Optional<Users> usersOptional = usersRepository.findByUsername(username);
         if(usersOptional.isEmpty()){
-            response.setMessage("User not found");
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            authResponse.setMessage("User not found");
+            return new ResponseEntity<>(authResponse, HttpStatus.NOT_FOUND);
         }
         Users user = usersOptional.get();
         if(!user.getUserDetails().getEmail().trim().equals(email)){
-            response.setMessage("User email doesn't match with system");
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            authResponse.setMessage("User email doesn't match with system");
+            return new ResponseEntity<>(authResponse, HttpStatus.NOT_FOUND);
         }
         try{
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, request.getPassword()));
         } catch (BadCredentialsException e){
-            response.setMessage("Password doesn't match");
-            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+            authResponse.setMessage("Password doesn't match");
+            return new ResponseEntity<>(authResponse, HttpStatus.UNAUTHORIZED);
         }
         JWTutil instance = new JWTutil();
         String jwt = instance.generateJWT(username, request.getPassword());
-        response.setJwt(jwt);
-        response.setMessage("Successfully Authenticated");
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        Cookie cookie = new Cookie("jwt", jwt);
+        cookie.setMaxAge(3600);
+        cookie.setDomain(requestingDomain);
+        cookie.setSecure(true);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+
+        response.addCookie(cookie);
+
+        authResponse.setMessage("SUCCESS ");
+        authResponse.setAuthority(user.getUserDetails().getAuthority().getAuthorityName());
+        return new ResponseEntity<>(authResponse, HttpStatus.OK);
     }
 
     @PostMapping("/change-authentication")
@@ -170,5 +215,12 @@ public class LoginRestController {
     @GetMapping("/hello")
     public String hello(){
         return "hello";
+    }
+
+    @PostMapping("/remove-authentication")
+    public void logout(HttpServletResponse response){
+        Cookie jwt = new Cookie("jwt", "");
+        jwt.setMaxAge(0);
+        response.addCookie(jwt);
     }
 }

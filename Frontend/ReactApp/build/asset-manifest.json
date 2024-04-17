@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/Georgey764/EmergingScholarsApplication.git/static/css/main.421ee9f3.css",
+    "main.js": "/Georgey764/EmergingScholarsApplication.git/static/js/main.45bfcd84.js",
+    "static/media/ulm.png": "/Georgey764/EmergingScholarsApplication.git/static/media/ulm.01bde6840ff614fb8a25.png",
+    "index.html": "/Georgey764/EmergingScholarsApplication.git/index.html",
+    "main.421ee9f3.css.map": "/Georgey764/EmergingScholarsApplication.git/static/css/main.421ee9f3.css.map",
+    "main.45bfcd84.js.map": "/Georgey764/EmergingScholarsApplication.git/static/js/main.45bfcd84.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.421ee9f3.css",
+    "static/js/main.45bfcd84.js"
+  ]
+}

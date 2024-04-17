@@ -33,26 +33,52 @@ public class MyFilter extends OncePerRequestFilter {
         this.userDetailsService = userDetailsService;
     }
 
+//    @Override
+//    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+//        String username = null;
+//        String jwt = null;
+//        Cookie[] cookie = request.getCookies();
+//        String header = request.getHeader("Authorization");
+//        if(header != null && header.startsWith("Bearer")){
+//            try{
+//                jwt = header.substring(7);
+//                JWTutil instance = new JWTutil();
+//                username = instance.decodeJWT(jwt).getPayload().getSubject();
+//            } catch (ExpiredJwtException e){
+//                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Session Expired");
+//            }
+//
+//        }
+//        if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
+//            UserDetails user = userDetailsService.loadUserByUsername(username);
+//            UsernamePasswordAuthenticationToken authencation = new UsernamePasswordAuthenticationToken(user.getUsername(), "", user.getAuthorities());
+//            SecurityContextHolder.getContext().setAuthentication(authencation);
+//        }
+//        filterChain.doFilter(request, response);
+//    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String username = null;
         String jwt = null;
-        Cookie[] cookie = request.getCookies();
-        String header = request.getHeader("Authorization");
-        if(header != null && header.startsWith("Bearer")){
-            try{
-                jwt = header.substring(7);
-                JWTutil instance = new JWTutil();
-                username = instance.decodeJWT(jwt).getPayload().getSubject();
-            } catch (ExpiredJwtException e){
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Session Expired");
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie: cookies) {
+                String cookieName = cookie.getName();
+                String cookieValue = cookie.getValue();
+                if(cookieName.equals("jwt")){
+                    jwt = cookieValue;
+                }
             }
-
         }
-        if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
-            UserDetails user = userDetailsService.loadUserByUsername(username);
-            UsernamePasswordAuthenticationToken authencation = new UsernamePasswordAuthenticationToken(user.getUsername(), "", user.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authencation);
+        if(jwt != null) {
+            JWTutil instance = new JWTutil();
+            username = instance.decodeJWT(jwt).getPayload().getSubject();
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails user = userDetailsService.loadUserByUsername(username);
+                UsernamePasswordAuthenticationToken authencation = new UsernamePasswordAuthenticationToken(user.getUsername(), "", user.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authencation);
+            }
         }
         filterChain.doFilter(request, response);
     }

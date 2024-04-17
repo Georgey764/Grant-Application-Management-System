@@ -1,6 +1,7 @@
 package Emerging.App.Backend.Repository;
 
 import Emerging.App.Backend.Entities.CreatedApplication;
+import Emerging.App.Backend.Entities.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,6 +16,9 @@ public interface CreatedApplicationRepository extends JpaRepository<CreatedAppli
     //For Students
     @Query("SELECT u FROM CreatedApplication u WHERE CONCAT(u.user.userDetails.firstName, ' ', u.user.userDetails.lastName) LIKE :query")
     List<CreatedApplication> findByQuery(@Param("query") String query);
+
+    @Query("SELECT u.user FROM CreatedApplication u WHERE u.applicationId = :createdApplicationId")
+    Users findCreatorByCreatedAppId(@Param("createdApplicationId") int createdApplicationId);
 
     // For Faculty
     @Query("SELECT u FROM CreatedApplication u WHERE u.user.userId = :id")

@@ -50,7 +50,7 @@ public class FacultyRestController {
         Optional<CreatedApplication> createdApplicationOptional = createdApplicationRepository.findByCreatorUserId(id);
 
         if(createdApplicationOptional.isEmpty()){
-            facultyProjectResponse.setStatusMessage("No applications were found.");
+            facultyProjectResponse.setStatusMessage("No applications were found");
             return new ResponseEntity<>(facultyProjectResponse, HttpStatus.OK);
         }
 
@@ -218,7 +218,7 @@ public class FacultyRestController {
         Users user = usersOptional.get();
         int userId = user.getUserId();
 
-        if(!decision.toUpperCase().equals("ACCEPT")  && !decision.toUpperCase().equals("DECLINE") ){
+        if(!decision.toUpperCase().equals("ACCEPTED")  && !decision.toUpperCase().equals("DECLINED") ){
             return new ResponseEntity<>("The decision has to be either 'accept' or 'decline'", HttpStatus.OK);
         }
 

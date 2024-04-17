@@ -44,10 +44,11 @@ public class SecurityConfig{
                 .cors(cors -> cors.configurationSource(myWebsiteConfigurationSource()))
                 .authorizeHttpRequests(auth ->
                         auth
-                                .requestMatchers("/authenticate", "/sign-up").permitAll()
+                                .requestMatchers( "/authenticate", "/sign-up", "/redirect").permitAll()
                                 .requestMatchers("/students/**").hasRole("STUDENT")
                                 .requestMatchers("/faculty/**").hasRole("FACULTY")
-                                .anyRequest().authenticated()
+                                .anyRequest()
+                                .authenticated()
                 )
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -57,9 +58,10 @@ public class SecurityConfig{
 
     CorsConfigurationSource myWebsiteConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000/", "http://127.0.0.1:5500/"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000/"));
         configuration.setAllowedMethods(Arrays.asList("GET", "PUT", "DELETE", "POST", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

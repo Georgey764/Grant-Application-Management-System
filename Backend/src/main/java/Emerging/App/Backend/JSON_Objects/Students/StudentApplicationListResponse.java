@@ -1,6 +1,9 @@
 package Emerging.App.Backend.JSON_Objects.Students;
 
 public class StudentApplicationListResponse {
+
+    private int sentApplicationId;
+    private int createdApplicationId;
     private String professorName;
     private String department;
     private String projectName;
@@ -15,6 +18,31 @@ public class StudentApplicationListResponse {
     }
 
     public StudentApplicationListResponse() {
+    }
+
+    public StudentApplicationListResponse(int sentApplicationId, String professorName, String department, String projectName, String status) {
+        this.sentApplicationId = sentApplicationId;
+        this.professorName = professorName;
+        this.department = department;
+        this.projectName = projectName;
+        this.status = status;
+        this.decision = decision;
+    }
+
+    public int getCreatedApplicationId() {
+        return createdApplicationId;
+    }
+
+    public void setCreatedApplicationId(int createdApplicationId) {
+        this.createdApplicationId = createdApplicationId;
+    }
+
+    public int getSentApplicationId() {
+        return sentApplicationId;
+    }
+
+    public void setSentApplicationId(int sentApplicationId) {
+        this.sentApplicationId = sentApplicationId;
     }
 
     public String getProfessorName() {

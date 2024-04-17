@@ -3,6 +3,7 @@ package Emerging.App.Backend.Controller;
 import Emerging.App.Backend.Entities.*;
 import Emerging.App.Backend.JSON_Objects.Authentication.ApplicationRequest;
 import Emerging.App.Backend.JSON_Objects.Faculty.FacultyApplicationResponse;
+import Emerging.App.Backend.JSON_Objects.Students.Details;
 import Emerging.App.Backend.JSON_Objects.Students.StudentApplicationListResponse;
 import Emerging.App.Backend.JSON_Objects.Students.StudentApplicationResponse;
 import Emerging.App.Backend.Repository.CreatedApplicationRepository;
@@ -40,7 +41,7 @@ public class StudentsRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Set<Integer> sentCreatorIds = sentApplicationRepository.getSentApplicationsCreatedApplicationId(user.getUserId());
+        List<Integer> sentCreatorIds = sentApplicationRepository.getSentApplicationsCreatedApplicationId(user.getUserId());
         List<StudentApplicationListResponse> responseList = new ArrayList<>();
 
         if(searchQuery != null){
@@ -52,17 +53,27 @@ public class StudentsRestController {
                 String professorName = current.getUser().getUserDetails().getFirstName() + " " + current.getUser().getUserDetails().getLastName();
                 String department = current.getUser().getUserDetails().getDepartment();
                 String projectName = current.getName();
-                String status;
-                String decision;
+                String status = "NOT SUBMITTED";
+                String decision = "SUBMIT APP TO RECEIVE DECISION";
+                List<SentApplication> sentApplication;
+                int sentApplicationId = -1;
                 if (sentCreatorIds.contains(current.getApplicationId())) {
                     status = "SUBMITTED";
-                    decision = sentApplicationRepository.getStudentsSentApplicationFromCreatedApplication(current.getApplicationId()).getDecision();
-                } else {
-                    status = "NOT SUBMITTED";
-                    decision = "SUBMIT APP TO RECEIVE DECISION";
+                    sentApplication = sentApplicationRepository.getStudentsSentApplicationFromCreatedApplication(current.getApplicationId());
+                    Iterator<SentApplication> sentApplicationIterator = sentApplication.listIterator();
+                    while(sentApplicationIterator.hasNext()){
+                        SentApplication now = sentApplicationIterator.next();
+                        if(now.getSender().getUserId() == user.getUserId()){
+                            decision = now.getDecision();
+                            sentApplicationId = now.getSentApplicationId();
+                            break;
+                        }
+                    }
                 }
                 StudentApplicationListResponse listItem = new StudentApplicationListResponse(professorName, department, projectName, status);
                 listItem.setDecision(decision);
+                listItem.setSentApplicationId(sentApplicationId);
+                listItem.setCreatedApplicationId(current.getApplicationId());
                 responseList.add(listItem);
             }
         } else {
@@ -74,17 +85,27 @@ public class StudentsRestController {
                 String professorName = current.getUser().getUserDetails().getFirstName() + " " + current.getUser().getUserDetails().getLastName();
                 String department = current.getUser().getUserDetails().getDepartment();
                 String projectName = current.getName();
-                String status;
-                String decision;
+                String status = "NOT SUBMITTED";
+                String decision = "SUBMIT APP TO RECEIVE DECISION";
+                List<SentApplication> sentApplication;
+                int sentApplicationId = -1;
                 if (sentCreatorIds.contains(current.getApplicationId())) {
                     status = "SUBMITTED";
-                    decision = sentApplicationRepository.getStudentsSentApplicationFromCreatedApplication(current.getApplicationId()).getDecision();
-                } else {
-                    status = "NOT SUBMITTED";
-                    decision = "SUBMIT APP TO RECEIVE DECISION";
+                    sentApplication = sentApplicationRepository.getStudentsSentApplicationFromCreatedApplication(current.getApplicationId());
+                    Iterator<SentApplication> sentApplicationIterator = sentApplication.listIterator();
+                    while(sentApplicationIterator.hasNext()){
+                        SentApplication now = sentApplicationIterator.next();
+                        if(now.getSender().getUserId() == user.getUserId()){
+                            decision = now.getDecision();
+                            sentApplicationId = now.getSentApplicationId();
+                            break;
+                        }
+                    }
                 }
                 StudentApplicationListResponse listItem = new StudentApplicationListResponse(professorName, department, projectName, status);
                 listItem.setDecision(decision);
+                listItem.setSentApplicationId(sentApplicationId);
+                listItem.setCreatedApplicationId(current.getApplicationId());
                 responseList.add(listItem);
             }
         }
@@ -92,12 +113,22 @@ public class StudentsRestController {
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 
+    @GetMapping("/details")
+    public Details getDetails(){
+        Details response = new Details();
+        response.setFirstName(getUser().getUserDetails().getFirstName());
+        response.setLastName(getUser().getUserDetails().getLastName());
+        response.setMajor(getUser().getUserDetails().getDepartment());
+        response.setCWID(getUser().getUserDetails().getCwid());
+        return response;
+    }
+
     @PostMapping("/send-application")
     public ResponseEntity<String> sendApplication(@RequestBody ApplicationRequest applicationRequest){
-        Optional<Users> senderOptional = usersRepository.findByUsername(applicationRequest.getSender());
-        Optional<Users> receiverOptional = usersRepository.findByUsername(applicationRequest.getReceiver());
-        if(senderOptional.isEmpty() || receiverOptional.isEmpty()){
-            return new ResponseEntity<>("The given sender and receiver doesn't exist.", HttpStatus.OK);
+        Optional<Users> senderOptional = usersRepository.findByUsername(getUser().getUsername());
+
+        if(senderOptional.isEmpty()){
+            return new ResponseEntity<>("The given sender doesn't exist.", HttpStatus.OK);
         }
 
         String message = applicationRequest.getMessage();
@@ -106,22 +137,23 @@ public class StudentsRestController {
         String classification = applicationRequest.getClassification();
         int applicationId = applicationRequest.getApplicationId();
         Optional<CreatedApplication> createdApplicationOptional = createdApplicationRepository.findById(applicationId);
+        List<Integer> sentApplications = sentApplicationRepository.getSentApplicationsCreatedApplicationId(getUser().getUserId());
+
+        Users receiver = createdApplicationRepository.findCreatorByCreatedAppId(applicationId);
 
         Resume resume = null;
         if(resumeLink != null){
             resume = new Resume();
             resume.setResumeLink(resumeLink);
         }
-        if(senderOptional.get() == null){
-            return new ResponseEntity<>("Sender not found", HttpStatus.OK);
-        } else if (receiverOptional.get() == null) {
-            return new ResponseEntity<>("Receiver not found", HttpStatus.OK);
-        }
-
         if(createdApplicationOptional.isEmpty()){
             return new ResponseEntity<>("Application that you were trying to send is not found", HttpStatus.OK);
+        } else if(sentApplications.contains(applicationId)){
+            return new ResponseEntity<>("The application that you are trying to send is already sent", HttpStatus.OK);
         }
-        SentApplication application = new SentApplication(createdApplicationOptional.get(), senderOptional.get(), receiverOptional.get(), message, resume, gpa, classification);
+
+        SentApplication application = new SentApplication(createdApplicationOptional.get(), senderOptional.get(), receiver, message, resume, gpa, classification);
+        application.setDecision("In - Progress");
         sentApplicationRepository.save(application);
 
         return new ResponseEntity<>("Successfully sent", HttpStatus.OK);
@@ -147,8 +179,9 @@ public class StudentsRestController {
             status = "SUBMITTED";
             decision = current.getDecision();
 
-            StudentApplicationListResponse listItem = new StudentApplicationListResponse(professorName, department, projectName, status);
+            StudentApplicationListResponse listItem = new StudentApplicationListResponse(current.getSentApplicationId() ,professorName, department, projectName, status);
             listItem.setDecision(decision);
+            listItem.setSentApplicationId(current.getSentApplicationId());
             responseList.add(listItem);
         }
 
