@@ -46,7 +46,6 @@ function SignupPage() {
       .catch((e) => console.log(e));
   }
 
-  useEffect(function () {}, []);
   return (
     <div className="div_signup">
       <div id="signup_box">
@@ -58,14 +57,14 @@ function SignupPage() {
           />
         </div>
 
-        <div className="signup_form">
+        <div className="signup_form p-5">
           <form
             onSubmit={(e) => handleSubmit(e)}
             action=""
             id="signup_form_box"
           >
             <div className="form_layout">
-              <div className="column_1">
+              <div className="column_1 m-0">
                 <label htmlFor="first_name"> First Name</label>
                 <input
                   required
@@ -97,7 +96,7 @@ function SignupPage() {
                 />
               </div>
 
-              <div className="column_2">
+              <div className="column_2 m-0">
                 <label htmlFor="w_email"> Warhawks Email</label>
                 <input
                   required
@@ -131,7 +130,7 @@ function SignupPage() {
                 </div>
               </div>
 
-              <div className="column_3">
+              <div className="column_3 m-0">
                 <label htmlFor="w_password"> Password</label>
                 <input
                   required
