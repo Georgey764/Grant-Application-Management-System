@@ -74,6 +74,7 @@ public class StudentsRestController {
                 listItem.setDecision(decision);
                 listItem.setSentApplicationId(sentApplicationId);
                 listItem.setCreatedApplicationId(current.getApplicationId());
+                listItem.setProjectDescription(current.getDescription());
                 responseList.add(listItem);
             }
         } else {
@@ -106,6 +107,7 @@ public class StudentsRestController {
                 listItem.setDecision(decision);
                 listItem.setSentApplicationId(sentApplicationId);
                 listItem.setCreatedApplicationId(current.getApplicationId());
+                listItem.setProjectDescription(current.getDescription());
                 responseList.add(listItem);
             }
         }
@@ -153,7 +155,7 @@ public class StudentsRestController {
         }
 
         SentApplication application = new SentApplication(createdApplicationOptional.get(), senderOptional.get(), receiver, message, resume, gpa, classification);
-        application.setDecision("In - Progress");
+        application.setDecision("IN - PROGRESS");
         sentApplicationRepository.save(application);
 
         return new ResponseEntity<>("Successfully sent", HttpStatus.OK);
@@ -181,7 +183,7 @@ public class StudentsRestController {
 
             StudentApplicationListResponse listItem = new StudentApplicationListResponse(current.getSentApplicationId() ,professorName, department, projectName, status);
             listItem.setDecision(decision);
-            listItem.setSentApplicationId(current.getSentApplicationId());
+            listItem.setCreatedApplicationId(current.getCreatedApplication().getApplicationId());
             responseList.add(listItem);
         }
 

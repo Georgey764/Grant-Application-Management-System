@@ -20,24 +20,9 @@ function HomePage() {
   const [sentApplications, setSentApplications] = useState([]);
   const [createdApplications, setCreadtedApplications] = useState([]);
   const [activeApplication, setActiveApplication] = useState({});
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
-    const professorInfo = async () => {
-      axios
-        .get(getProfessorsListLink, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        })
-        .then((response) => {
-          console.log(response);
-          setCreadtedApplications([...response.data]);
-        })
-        .catch((e) => console.log(e));
-    };
-    professorInfo();
-
     const getSentApplication = async () =>
       axios
         .get(getSentApplicationLink, {
@@ -52,10 +37,26 @@ function HomePage() {
         .catch((e) => console.log(e));
 
     getSentApplication();
-  }, [sentApplications]);
+  }, []);
+
+  useEffect(() => {
+    const professorInfo = async () => {
+      axios
+        .get(getProfessorsListLink + query, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        })
+        .then((response) => {
+          setCreadtedApplications([...response.data]);
+        })
+        .catch((e) => console.log(e));
+    };
+    professorInfo();
+  }, [query]);
 
   function onClickToSetActiveApp(e, val) {
-    console.log(val);
     setActiveApplication(val);
   }
 
@@ -82,6 +83,10 @@ function HomePage() {
       .catch((e) => console.log(e));
   }
 
+  function handleQueryChange(e) {
+    setQuery(e.target.value);
+  }
+
   return (
     // HomePage for the professor
     <div className="homepage" id="homepage_student">
@@ -90,6 +95,8 @@ function HomePage() {
           {/* Search Box for the professor */}
           <input
             type="text"
+            value={query}
+            onChange={(e) => handleQueryChange(e)}
             className="form-control mt-5 text-center"
             placeholder="Search for Professors"
           />
@@ -120,7 +127,11 @@ function HomePage() {
                       onClick={(e) => onClickToSetActiveApp(e, cur)}
                       style={{ cursor: "pointer" }}
                       className="list-group-item d-flex justify-content-between"
-                      key={cur.sentApplicationId}
+                      key={
+                        cur.sentApplicationId === -1
+                          ? -1 + cur.professorName + cur.createdApplicationId
+                          : cur.sentApplicationId
+                      }
                     >
                       <p className="m-0">{cur.professorName}</p>
                       <p
@@ -134,7 +145,7 @@ function HomePage() {
                           ? "Accepted ✅"
                           : cur.decision === "DECLINED"
                           ? "Declined ❌"
-                          : cur.decision === "In - Progress"
+                          : cur.decision === "IN - PROGRESS"
                           ? "Submitted 😊"
                           : "Submit"}
                       </p>
@@ -148,7 +159,7 @@ function HomePage() {
           <div className="d-flex justify-content-around buttons mt-0 text-center">
             <button
               type="button"
-              className="btn btn-secondary mt-5 p-3 mb-3"
+              className="btn btn-secondary mt-5 p-2 mb-3"
               id="my_account_button"
               onClick={onClickMyApplication}
             >
@@ -173,9 +184,12 @@ function HomePage() {
                 setActiveApp={setActiveApplication}
               />
             ) : (
-              <ViewApplication activeId={activeApplication.sentApplicationId} />
+              <ViewApplication
+                appInfo={activeApplication}
+                activeId={activeApplication.sentApplicationId}
+              />
             )
-          ) : sentApplications ? (
+          ) : sentApplications.length !== 0 ? (
             <CreatedApplicationList
               sentApplications={sentApplications}
               setActiveApplication={setActiveApp}

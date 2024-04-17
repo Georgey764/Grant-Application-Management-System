@@ -3,26 +3,32 @@ import "./homepage.css";
 import CreateProject from "../DivComponents/NewProject/CreateProjectProfessor";
 import EmptyProject from "../DivComponents/NewProject/EmptyProjectProfessor";
 import HaveProject from "../DivComponents/NewProject/HaveProjectProfessor";
-import StudentInfo from "../DivComponents/NewProject/StudentInfoProfessor";
 import MyAccount from "../DivComponents/NewProject/MyAccountProfessor";
-import StudentComponent from "../DivComponents/NewProject/StudentComponent";
+import StudentInfoProfessor from "../DivComponents/NewProject/StudentInfoProfessor";
 import axios, { HttpStatusCode } from "axios";
 
+const getProjectURL = "http://localhost:8080/faculty/project";
+const getStudentsURL =
+  "http://localhost:8080/faculty/received-applications?search-query=";
+const logOutUrl = "http://localhost:8080/remove-authentication";
+const logInPage = "http://localhost:3000/";
+
 function HomePage() {
-  const [studentData, setStudentData] = useState(null);
+  const [studentData, setStudentData] = useState([]);
   const [project, setProject] = useState({
     project_name: "",
     description: "",
     application_id: "",
     statusMessage: "",
   });
-  const query = "g";
   const [component, setComponent] = useState("ProjectDisplay");
+  const [activeApplicationId, setActiveApplicationId] = useState(-1);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     const loadFaculty = async () => {
       axios
-        .get("http://localhost:8080/faculty/project", {
+        .get(getProjectURL, {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",
@@ -50,32 +56,53 @@ function HomePage() {
         });
     };
     loadFaculty();
+  }, []);
+
+  useEffect(() => {
     const loadStudentData = async () => {
       axios
-        .get(
-          "http://localhost:8080/faculty/received-applications?search-query=" +
-            query,
-          {
-            withCredentials: true,
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        )
+        .get(getStudentsURL + query, {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
         .then((response) => {
-          console.log(response);
-        });
+          setStudentData([...response.data]);
+        })
+        .catch((e) => console.log(e));
     };
     loadStudentData();
-  }, [project]);
+  }, [query]);
+
+  function logOut() {
+    fetch(logOutUrl, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        alert("Successfully Logged out");
+        window.location.href = logInPage;
+      })
+      .catch((e) => console.log(e));
+  }
 
   const handleEditClick = () => {
-    setComponent("CreateProject"); // Update component state to display CreateProject
-    console.log("edited");
+    setComponent("CreateProject");
   };
   const isCreateClicked = () => {
     setComponent("CreateProject");
   };
+  function handleApplicantsClick(cur) {
+    setComponent("ViewApplicant");
+    setActiveApplicationId(cur);
+  }
+  function handleQueryChange(e) {
+    setQuery(e.target.value);
+  }
 
   return (
     // HomePage for the professor
@@ -86,6 +113,8 @@ function HomePage() {
           <input
             type="text"
             className="form-control mt-5 text-center"
+            value={query}
+            onChange={(e) => handleQueryChange(e)}
             placeholder="Search for Applicants"
           />
 
@@ -106,24 +135,59 @@ function HomePage() {
             </div>
           </div>
 
-          <div className="container-fluid" id="applicants_block">
-            <div className="container-fluid">
-              <div className="col">
-                <StudentComponent />
-              </div>
-            </div>
+          <div className="container-fluid p-0" id="applicants_block">
+            <ul className="list-group m-0 overflow-y-scroll">
+              {studentData.map((cur) => {
+                return (
+                  <li
+                    style={{ cursor: "pointer" }}
+                    className="list-group-item d-flex justify-content-between"
+                    onClick={(e) => {
+                      handleApplicantsClick(cur.sentApplicationId);
+                    }}
+                    key={cur.sentApplicationId}
+                  >
+                    <p className="m-0">
+                      {cur.firstName} {cur.lastName}
+                    </p>
+                    <p
+                      className={`m-0 rounded ${
+                        cur.decision === "IN - PROGRESS"
+                          ? "bg-success ps-2 pe-2 pt-0 pb-0 text-light"
+                          : ""
+                      }`}
+                    >
+                      {cur.decision === "ACCEPTED"
+                        ? "Accepted ✅"
+                        : cur.decision === "DECLINED"
+                        ? "Declined ❌"
+                        : "Decide"}
+                    </p>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
 
-          <div className="buttons mt-5 text-center">
+          <div className="d-flex justify-content-around buttons gap-3 text-center">
             <button
               type="button"
-              className="btn btn-secondary p-3"
+              className="btn btn-secondary mt-5 p-3 mb-3"
               id="my_project_button"
-              onClick={() => setComponent("ProjectDisplay")}
+              onClick={() => {
+                setComponent("ProjectDisplay");
+              }}
             >
               My Project
             </button>
-            <br />
+            <button
+              type="button"
+              className="btn btn-secondary mt-5 p-3 mb-3"
+              id="my_account_button"
+              onClick={logOut}
+            >
+              Log Out
+            </button>
             {/* <button
               type="button"
               className="btn btn-secondary mt-5 p-3 mb-3"
@@ -147,6 +211,9 @@ function HomePage() {
             </>
           )}
           {component === "CreateProject" && <CreateProject data={project} />}
+          {component === "ViewApplicant" && (
+            <StudentInfoProfessor activeApplicationId={activeApplicationId} />
+          )}
         </div>
       </div>
     </div>

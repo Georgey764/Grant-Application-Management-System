@@ -218,8 +218,8 @@ public class FacultyRestController {
         Users user = usersOptional.get();
         int userId = user.getUserId();
 
-        if(!decision.toUpperCase().equals("ACCEPTED")  && !decision.toUpperCase().equals("DECLINED") ){
-            return new ResponseEntity<>("The decision has to be either 'accept' or 'decline'", HttpStatus.OK);
+        if(!decision.toUpperCase().equals("ACCEPTED")  && !decision.toUpperCase().equals("DECLINED") && !decision.toUpperCase().equals("IN - PROGRESS") ){
+            return new ResponseEntity<>("The decision has to be either 'accepted', 'In - Progress' or 'declined'", HttpStatus.OK);
         }
 
         Optional<SentApplication> sentApplicationOptional = sentApplicationRepository.findById(sentApplicationId);
@@ -232,7 +232,7 @@ public class FacultyRestController {
         sentApplicationOptional.get().setDecision(decision.toUpperCase());
         sentApplicationRepository.flush();
 
-        return new ResponseEntity<>("Successfully edited", HttpStatus.OK);
+        return new ResponseEntity<>("Successfully decided", HttpStatus.OK);
     }
 
     @GetMapping("/hello")

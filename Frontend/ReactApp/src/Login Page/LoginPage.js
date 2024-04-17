@@ -37,7 +37,6 @@ function LoginPage() {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
         if (data.message.startsWith("SUCCESS")) {
           localStorage.setItem("authority", data.authority);
           navigate("/app");

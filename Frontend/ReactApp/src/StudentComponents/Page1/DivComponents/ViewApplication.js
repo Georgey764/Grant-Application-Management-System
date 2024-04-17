@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+const deleteURL = "http://localhost:8080/students/application/";
+
 const headers = {
   method: "GET",
   credentials: "include",
@@ -9,7 +11,7 @@ const headers = {
   },
 };
 
-function ViewApplication({ activeId }) {
+function ViewApplication({ activeId, appInfo }) {
   const [studentApplicationDetails, setStudentApplicationDetails] = useState({
     professorName: "",
     firstName: "",
@@ -38,10 +40,36 @@ function ViewApplication({ activeId }) {
       .catch((e) => console.log(e));
   }, [activeId]);
 
+  function handleDelete() {
+    fetch(deleteURL + activeId, {
+      method: "DELETE",
+      credentials: "include",
+      headers: { "Content-Type": "text/plain" },
+    })
+      .then((res) => {
+        return res.text();
+      })
+      .then((res) => {
+        alert(res);
+        window.location.reload();
+      })
+      .catch((e) => console.log(e));
+  }
+
   return (
     <div className="new_project m-5">
-      <span className="fs-2">View Sent Emerging Scholar Application</span>
-      <div className="mb-5"> </div>
+      <span className="fs-2">View Application for {appInfo.professorName}</span>
+      <div className="project-container bg-secondary-subtle p-0 rounded mt-2">
+        <p className="mt-22">
+          <span className="fw-bold">Project: </span>
+          {appInfo.projectName}
+        </p>
+        <p className="mt-2 fw-bold">
+          Description:{" "}
+          <span className="fw-normal">{appInfo.projectDescription}</span>
+        </p>
+      </div>
+      <div className="mb-2"> </div>
       <form>
         <div className="row">
           <div className="col md-4 mb-3">
@@ -142,10 +170,13 @@ function ViewApplication({ activeId }) {
             name="message"
             className="form-control mt-3"
             value={studentApplicationDetails.message || "N/A"}
-            rows={6}
+            rows={3}
           />
         </div>
       </form>
+      <div className="d-flex justify-content-end mt-4">
+        <button onClick={handleDelete}>Delete</button>
+      </div>
     </div>
   );
 }

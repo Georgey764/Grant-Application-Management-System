@@ -7,8 +7,10 @@ function MergeComponents(props) {
     <div>
       {props.authority === "ROLE_FACULTY" ? (
         <HomePageProfessor />
-      ) : (
+      ) : props.authority === "ROLE_STUDENT" ? (
         <HomePageStudent />
+      ) : (
+        <div>nothing</div>
       )}
     </div>
   );

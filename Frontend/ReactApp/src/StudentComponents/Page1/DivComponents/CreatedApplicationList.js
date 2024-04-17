@@ -1,9 +1,28 @@
+const deleteURL = "http://localhost:8080/students/application/";
+
 export default function CreatedApplicationList({
   sentApplications,
   setActiveApplication,
 }) {
   function handleClick(e, val) {
+    console.log();
     setActiveApplication(val);
+  }
+
+  function handleDelete(selectedId) {
+    fetch(deleteURL + selectedId, {
+      method: "DELETE",
+      credentials: "include",
+      headers: { "Content-Type": "text/plain" },
+    })
+      .then((res) => {
+        return res.text();
+      })
+      .then((res) => {
+        alert(res);
+        window.location.reload();
+      })
+      .catch((e) => console.log(e));
   }
 
   return (
@@ -14,16 +33,18 @@ export default function CreatedApplicationList({
           <li
             className="list-group-item sent-app-list"
             key={cur.sentApplicationId}
-            onClick={(e) => handleClick(e, cur)}
           >
             <SentApplicationList
               props={{
+                cur: cur,
                 profName: cur.professorName,
                 department: cur.department,
                 status: cur.status,
                 decision: cur.decision,
                 sentApplicationId: cur.sentApplicationId,
                 projectName: cur.projectName,
+                handleClick: handleClick,
+                handleDelete: handleDelete,
               }}
             />
           </li>
@@ -45,8 +66,18 @@ function SentApplicationList({ props }) {
             ? "Declined ❌"
             : "In - Progress ⏳"}
         </p>
-        <button className="mb-0 mt-0 me-4 ">Delete</button>
-        <button className="mb-0 mt-0">View</button>
+        <button
+          className="mb-0 mt-0 me-4"
+          onClick={(e) => props.handleDelete(props.sentApplicationId)}
+        >
+          Delete
+        </button>
+        <button
+          onClick={(e) => props.handleClick(e, props.cur)}
+          className="mb-0 mt-0"
+        >
+          View
+        </button>
       </div>
     </div>
   );

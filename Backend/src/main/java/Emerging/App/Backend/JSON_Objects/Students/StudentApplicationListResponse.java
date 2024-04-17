@@ -7,6 +7,7 @@ public class StudentApplicationListResponse {
     private String professorName;
     private String department;
     private String projectName;
+    private String projectDescription;
     private String status;
     private String decision;
 
@@ -31,6 +32,14 @@ public class StudentApplicationListResponse {
 
     public int getCreatedApplicationId() {
         return createdApplicationId;
+    }
+
+    public String getProjectDescription() {
+        return projectDescription;
+    }
+
+    public void setProjectDescription(String projectDescription) {
+        this.projectDescription = projectDescription;
     }
 
     public void setCreatedApplicationId(int createdApplicationId) {

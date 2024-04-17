@@ -59,6 +59,7 @@ function CreateApplication({ appInfo, setActiveApp }) {
         .then((response) => {
           alert(response.data);
           setActiveApp({});
+          window.location.reload();
         })
         .catch((e) => {
           console.log(e);
@@ -76,8 +77,18 @@ function CreateApplication({ appInfo, setActiveApp }) {
   }
   return (
     <div className="new_project m-5">
-      <span className="fs-2">Emerging Scholar Application</span>
-      <div className="mb-5"> </div>
+      <span className="fs-2">Send Application to {appInfo.professorName}</span>
+      <div className="project-container bg-secondary-subtle p-0 rounded mt-2">
+        <p className="mt-22">
+          <span className="fw-bold">Project: </span>
+          {appInfo.projectName}
+        </p>
+        <p className="mt-2 fw-bold">
+          Description:{" "}
+          <span className="fw-normal">{appInfo.projectDescription}</span>
+        </p>
+      </div>
+      <div className="mb-2"> </div>
       <form onSubmit={(e) => submitData(e)}>
         <div className="row">
           <div className="col md-4 mb-3">
@@ -178,7 +189,7 @@ function CreateApplication({ appInfo, setActiveApp }) {
             name="message"
             className="form-control mt-3"
             onChange={handleChange}
-            rows={6}
+            rows={2}
           />
         </div>
         <div className="text-end">
