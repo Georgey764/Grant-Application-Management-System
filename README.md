@@ -1,3 +1,6 @@
-# EmergingScholarsApplication
+# Application Submission Software (For Emerging Scholars)
 
-Application for the emerging scholars ULM.
+> This is a software made for the application submission process at Emerging Scholars.
+
+## Overview
+1. Setting up the project
