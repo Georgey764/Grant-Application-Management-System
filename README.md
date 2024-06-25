@@ -1,5 +1,4 @@
-# Application Submission Software  ###### (For Emerging Scholars)
-
+# Application Submission Software  
 
 > This is a software made for the application submission process at Emerging Scholars.
 
