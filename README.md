@@ -4,12 +4,12 @@
 
 ## Overview
 1. <a href="#prerequisites">Prerequisites</a>
-2. Tech Stack
-3. Setting up the project
+2. <a href="#tech-stack">Tech Stack</a>
+3. <a href="#setting-up-project">Setting up the project</a>
       * Setting up the database
       * Setting up the backend server
       * Setting up the frontend
-4. Using the Application
+4. <a href="#using-app">Using the Application</a>
 
 ## <p id="prerequisites">Prequisites</p>
 - **mysql** >= 8.3.0
@@ -17,13 +17,13 @@
 - **java** 21 (LTS Recommended)
 - **Node.js** >= v20.12.1 (LTS Recommended)
 
-## Tech Stack
+## <p id="tech-stack">Tech Stack</p>
 - Spring Boot
 - Spring Security
 - React.js
 - MySQL
 
-## Setting up the project
+## <p id="setting-up-project">Setting up the project</p>
 I will give you a step by step instructions on how to set up the project. Since this is a full-stack application that uses database the set up is going to be very extensive.
 
 #### First step in setting up the project:
@@ -115,4 +115,4 @@ I will give you a step by step instructions on how to set up the project. Since 
      npm start
      ```
   
-## Using the Application
+## <p id="using-app">Using the Application</p>
