@@ -3,13 +3,19 @@
 > This is a software made for the application submission process at Emerging Scholars.
 
 ## Overview
-1. <a href="#prerequisites">Prerequisites</a>
-2. Tech Stack
-3. Setting up the project
+1. <a href="#walkthrough">Walkthrough video</a>
+2. <a href="#screenshots">Screenshots</a>
+3. <a href="#prerequisites">Prerequisites</a>
+4. <a href="#tech-stack">Tech Stack</a>
+5. <a href="#setting-up-project">Setting up the project</a>
       * Setting up the database
       * Setting up the backend server
       * Setting up the frontend
-4. Using the Application
+6. <a href="#using-app">Using the Application</a>
+
+## <p id="walkthrough">Walkthrough</p>
+
+## <p id="screenshots">Screenshots</p>
 
 ## <p id="prerequisites">Prequisites</p>
 - **mysql** >= 8.3.0
@@ -17,18 +23,23 @@
 - **java** 21 (LTS Recommended)
 - **Node.js** >= v20.12.1 (LTS Recommended)
 
-## Tech Stack
+## <p id="tech-stack">Tech Stack</p>
 - Spring Boot
 - Spring Security
 - React.js
 - MySQL
 
-## Setting up the project
+## <p id="setting-up-project">Setting up the project</p>
 I will give you a step by step instructions on how to set up the project. Since this is a full-stack application that uses database the set up is going to be very extensive.
 
 #### First step in setting up the project:
-Clone the Repo
+- Open the command line interface and then clone the Repo:
 
+     ```
+     git clone https://github.com/Georgey764/EmergingApp.git
+     cd EmergingApp
+     ```
+  
 #### Setting up the database  
 1. Start the mysql server  
   
@@ -49,14 +60,14 @@ Clone the Repo
    > username = your mysql username
   
   
-3. Restore the dump DatabaseSchemaQueries.sql in /EmergingScholarsApplication/Backend/DatabaseSchemaQueries.sql
+3. Restore the dump DatabaseSchemaQueries.sql in /EmergingApp/Backend/DatabaseSchemaQueries.sql
 
    ```
    mysql -u username -p emerging_data < ./DatabaseSchemaQueries.sql
    ```
 
 #### Setting up the backend server
-1. Open application.properties file located at **/EmergingScholarsApplication/Backend/src/main/resources/application.properties** and change the following variable names:
+1. Open application.properties file located at **/EmergingApp/Backend/src/main/resources/application.properties** and change the following variable names:
   
      ```
      #Change the values of the following variables to your mysql user details
@@ -67,19 +78,58 @@ Clone the Repo
      #spring.datasource.password=${DB_PASSWORD}
      ```
   
-2. Change your directory back to the Backend project folder /EmergingScholarsApplication/Backend/
-4. Run the following command
+2. Change your directory back to the Backend project folder /EmergingApp/Backend/
+
+     ```
+     cd /EmergingApp/Backend/
+     ```
+
+3. Set the environment variables
+
+     _**In MacOS**_
+     ```
+     source env_vars.txt
+     ```
+
+     _**In Windows**_
+     ```
+     for /f "delims=" %i in (env_vars.txt) do set %i
+     ```
+  
+5. Run the following command
   
      ```
      ./mvnw spring-boot:run
      ```
   
 #### Setting up the frontend
-1. Change the directory to /EmergingScholarsApplication/Frontend/
-2. Run the following command
+1. Change the directory to /EmergingApp/Frontend/
+
+     ```
+     cd /EmergingApp/Frontend/
+     ```
+  
+2. Install the required dependencies
+  
+     ```
+     npm install
+     ```
+  
+3. Run the following command
   
      ```
      npm start
      ```
   
-## Using the Application
+## <p id="using-app">Using the Application</p>
+
+Here is a list of demo accounts you can use to try out the application after you set it up.
+
+#### Demo Accounts:  
+     Student: 
+     email: johndoe@warhawks.ulm.edu, nelson@warhawks.ulm.edu, blue@warhawks.ulm.edu, green@warhawks.ulm.edu  
+     password: password!123  
+
+     Teacher/Faculty:
+     email: janedoe@ulm.edu, welsh@ulm.edu, michaels@ulm.edu, margaret@ulm.edu
+     password: password!123
