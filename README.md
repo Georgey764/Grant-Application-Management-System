@@ -19,7 +19,7 @@
 1. Sign-in and Sign-up page
 
    <div align="center">
-        <img width="425" alt="Screenshot 2024-06-26 at 7 58 47 AM" src="https://github.com/Georgey764/EmergingApp/assets/127057827/1ae7d9bf-6f4d-4303-836b-a0b19ae86c18">
+        <img width="435" alt="Screenshot 2024-06-26 at 7 58 47 AM" src="https://github.com/Georgey764/EmergingApp/assets/127057827/1ae7d9bf-6f4d-4303-836b-a0b19ae86c18">
         <img width="500" alt="Screenshot 2024-06-26 at 7 59 45 AM" src="https://github.com/Georgey764/EmergingApp/assets/127057827/86c26ef6-a9d1-4cbe-9f2c-d4d17c8f9b15">  
    </div>
 
