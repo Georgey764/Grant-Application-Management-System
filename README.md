@@ -77,8 +77,20 @@ I will give you a step by step instructions on how to set up the project. Since 
      ```
      cd /EmergingApp/Backend/
      ```
+
+3. Set the environment variables
+
+     In MacOS
+     ```
+     source env_vars.txt
+     ```
+
+     In Windows
+     ```
+     for /f "delims=" %i in (env_vars.txt) do set %i
+     ```
   
-3. Run the following command
+5. Run the following command
   
      ```
      ./mvnw spring-boot:run
