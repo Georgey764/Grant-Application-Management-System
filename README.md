@@ -88,7 +88,7 @@ I will give you a step by step instructions on how to set up the project. Since 
 1. Change the directory to /EmergingApp/Frontend/
 
      ```
-     cd /EmergingApp/Backend/
+     cd /EmergingApp/Frontend/
      ```
   
 2. Install the required dependencies
