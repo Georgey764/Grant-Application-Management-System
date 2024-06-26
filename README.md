@@ -56,7 +56,7 @@ Clone the Repo
    ```
 
 #### Setting up the backend server
-1. Open application.properties file located at /EmergingScholarsApplication/Backend/src/main/resources/application.properties and change the following variable names:
+1. Open application.properties file located at **/EmergingScholarsApplication/Backend/src/main/resources/application.properties** and change the following variable names:
   
      ```
      #Change the values of the following variables to your mysql user details
@@ -67,11 +67,15 @@ Clone the Repo
      #spring.datasource.password=${DB_PASSWORD}
      ```
   
-3. Change your directory back to the Backend project folder /EmergingScholarsApplication/Backend/
+2. Change your directory back to the Backend project folder /EmergingScholarsApplication/Backend/
 4. Run the following command
 
 #### Setting up the frontend
 1. Change the directory to /EmergingScholarsApplication/Frontend/
 2. Run the following command
-
+  
+     ```
+     npm start
+     ```
+  
 ## Using the Application
