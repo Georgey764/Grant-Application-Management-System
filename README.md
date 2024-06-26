@@ -27,8 +27,12 @@
 I will give you a step by step instructions on how to set up the project. Since this is a full-stack application that uses database the set up is going to be very extensive.
 
 #### First step in setting up the project:
-Clone the Repo
+- Open the command line interface and then clone the Repo:
 
+     ```
+     git clone https://github.com/Georgey764/EmergingApp.git
+     ```
+  
 #### Setting up the database  
 1. Start the mysql server  
   
