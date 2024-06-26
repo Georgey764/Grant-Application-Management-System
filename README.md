@@ -123,11 +123,11 @@ I will give you a step by step instructions on how to set up the project. Since 
   
 ## <p id="using-app">Using the Application</p>
 
-#### Demo Accounts  
-**Student:**  
-email: johndoe@warhawks.ulm.edu  
-password: password!123  
+### Demo Accounts:  
+     **Student:**  
+     email: johndoe@warhawks.ulm.edu  
+     password: password!123  
 
-**Teacher/Faculty**
-email: janedoe@warhawks.ulm.edu
-password: password!123
+     **Teacher/Faculty:**
+     email: janedoe@warhawks.ulm.edu
+     password: password!123
