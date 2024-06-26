@@ -19,27 +19,27 @@
 1. Sign-in and Sign-up page
 
    <div align="center">
-        <img width="345" alt="Screenshot 2024-06-26 at 7 58 47 AM" src="https://github.com/Georgey764/EmergingApp/assets/127057827/1ae7d9bf-6f4d-4303-836b-a0b19ae86c18">
-        <img width="400" alt="Screenshot 2024-06-26 at 7 59 45 AM" src="https://github.com/Georgey764/EmergingApp/assets/127057827/86c26ef6-a9d1-4cbe-9f2c-d4d17c8f9b15">  
+        <img width="445" alt="Screenshot 2024-06-26 at 7 58 47 AM" src="https://github.com/Georgey764/EmergingApp/assets/127057827/1ae7d9bf-6f4d-4303-836b-a0b19ae86c18">
+        <img width="500" alt="Screenshot 2024-06-26 at 7 59 45 AM" src="https://github.com/Georgey764/EmergingApp/assets/127057827/86c26ef6-a9d1-4cbe-9f2c-d4d17c8f9b15">  
    </div>
 
 2. Student homepage
 
-     <img width="400" alt="Screenshot 2024-06-26 at 8 00 36 AM" src="https://github.com/Georgey764/EmergingApp/assets/127057827/6276b2a7-6468-4f5b-b76c-dd3fc8de8dab">
+     <img width="550" alt="Screenshot 2024-06-26 at 8 00 36 AM" src="https://github.com/Georgey764/EmergingApp/assets/127057827/6276b2a7-6468-4f5b-b76c-dd3fc8de8dab">
 
    
 3. Student form submission page
 
-     <img width="400" alt="Screenshot 2024-06-26 at 8 01 03 AM" src="https://github.com/Georgey764/EmergingApp/assets/127057827/09ee3fbf-e732-4d5e-b7cf-05338285c349">
+     <img width="550" alt="Screenshot 2024-06-26 at 8 01 03 AM" src="https://github.com/Georgey764/EmergingApp/assets/127057827/09ee3fbf-e732-4d5e-b7cf-05338285c349">
      
    
 4. Faculty projects page
    
-    <img width="400" alt="Screenshot 2024-06-26 at 8 01 54 AM" src="https://github.com/Georgey764/EmergingApp/assets/127057827/91d48b3f-d04d-4291-8cc3-3c87c4b84ace">
+    <img width="550" alt="Screenshot 2024-06-26 at 8 01 54 AM" src="https://github.com/Georgey764/EmergingApp/assets/127057827/91d48b3f-d04d-4291-8cc3-3c87c4b84ace">
 
 5. Faculty view submissions page
    
-     <img width="400" alt="Screenshot 2024-06-26 at 8 02 28 AM" src="https://github.com/Georgey764/EmergingApp/assets/127057827/b2a8132a-e00b-4774-8b16-6e08675a8a1a">
+     <img width="550" alt="Screenshot 2024-06-26 at 8 02 28 AM" src="https://github.com/Georgey764/EmergingApp/assets/127057827/b2a8132a-e00b-4774-8b16-6e08675a8a1a">
 
 ## <p id="prerequisites">Prequisites</p>
 - **mysql** >= 8.3.0
