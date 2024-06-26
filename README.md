@@ -18,6 +18,10 @@
 - **Node.js** >= v20.12.1 (LTS Recommended)
 
 ## Tech Stack
+- Spring Boot
+- Spring Security
+- React.js
+- MySQL
 
 ## Setting up the project
 I will give you a step by step instructions on how to set up the project. Since this is a full-stack application that uses database the set up is going to be very extensive.
