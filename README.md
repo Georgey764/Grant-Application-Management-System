@@ -76,7 +76,13 @@ Clone the Repo
   
 #### Setting up the frontend
 1. Change the directory to /EmergingScholarsApplication/Frontend/
-2. Run the following command
+2. Install the required dependencies
+  
+     ```
+     npm install
+     ```
+  
+3. Run the following command
   
      ```
      npm start
