@@ -127,7 +127,7 @@ Here is a list of demo accounts you can use to try out the application after you
 
 #### Demo Accounts:  
      Student: 
-     email: johndoe@warhawks.ulm.edu  
+     email: johndoe@warhawks.ulm.edu, nelson@warhawks.ulm.edu, blue@warhawks.ulm.edu, green@warhawks.ulm.edu  
      password: password!123  
 
      Teacher/Faculty:
