@@ -26,12 +26,12 @@ I will give you a step by step instructions on how to set up the project. Since 
 Clone the Repo
 
 #### Setting up the database  
-1. Start the mysql server
+1. Start the mysql server  
   
-          _In Mac OS_
-          ```
-          mysql.server start
-          ```
+     _In Mac OS_
+     ```
+     mysql.server start
+     ```
 3. Create a database called 'emerging_data'
 4. Restore the dump DatabaseSchemaQueries.sql in /EmergingScholarsApplication/Backend/DatabaseSchemaQueries.sql
 
