@@ -123,7 +123,9 @@ I will give you a step by step instructions on how to set up the project. Since 
   
 ## <p id="using-app">Using the Application</p>
 
-### Demo Accounts:  
+Here is a list of demo accounts you can use to try out the application after you set it up.
+
+#### Demo Accounts:  
      Student: 
      email: johndoe@warhawks.ulm.edu  
      password: password!123  
