@@ -36,7 +36,13 @@ Clone the Repo
      ```
      mysqld
      ```
-3. Create a database called 'emerging_data'
+2. Create a database called 'emerging_data'
+
+   ```
+   mysql -u username -p -e "CREATE DATABASE emerging_data;"
+   ```
+   > You will be prompted to enter password. If your mysql doesn't have any password you can omit the -p
+  
 4. Restore the dump DatabaseSchemaQueries.sql in /EmergingScholarsApplication/Backend/DatabaseSchemaQueries.sql
 
 #### Setting up the backend server
