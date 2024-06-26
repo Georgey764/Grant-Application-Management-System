@@ -31,6 +31,7 @@ I will give you a step by step instructions on how to set up the project. Since 
 
      ```
      git clone https://github.com/Georgey764/EmergingApp.git
+     cd EmergingApp
      ```
   
 #### Setting up the database  
@@ -53,14 +54,14 @@ I will give you a step by step instructions on how to set up the project. Since 
    > username = your mysql username
   
   
-3. Restore the dump DatabaseSchemaQueries.sql in /EmergingScholarsApplication/Backend/DatabaseSchemaQueries.sql
+3. Restore the dump DatabaseSchemaQueries.sql in /EmergingApp/Backend/DatabaseSchemaQueries.sql
 
    ```
    mysql -u username -p emerging_data < ./DatabaseSchemaQueries.sql
    ```
 
 #### Setting up the backend server
-1. Open application.properties file located at **/EmergingScholarsApplication/Backend/src/main/resources/application.properties** and change the following variable names:
+1. Open application.properties file located at **/EmergingApp/Backend/src/main/resources/application.properties** and change the following variable names:
   
      ```
      #Change the values of the following variables to your mysql user details
@@ -71,7 +72,7 @@ I will give you a step by step instructions on how to set up the project. Since 
      #spring.datasource.password=${DB_PASSWORD}
      ```
   
-2. Change your directory back to the Backend project folder /EmergingScholarsApplication/Backend/
+2. Change your directory back to the Backend project folder /EmergingApp/Backend/
 4. Run the following command
   
      ```
@@ -79,7 +80,7 @@ I will give you a step by step instructions on how to set up the project. Since 
      ```
   
 #### Setting up the frontend
-1. Change the directory to /EmergingScholarsApplication/Frontend/
+1. Change the directory to /EmergingApp/Frontend/
 2. Install the required dependencies
   
      ```
