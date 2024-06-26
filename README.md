@@ -3,8 +3,8 @@
 > This is a software made for the application submission process at Emerging Scholars.
 
 ## Overview
-1. <a href="#walkthrough">Walkthrough video of the application</a>
-2. <a href="#screenshots">Screenshots of the application</a>
+1. <a href="#walkthrough">Walkthrough video</a>
+2. <a href="#screenshots">Screenshots</a>
 3. <a href="#prerequisites">Prerequisites</a>
 4. <a href="#tech-stack">Tech Stack</a>
 5. <a href="#setting-up-project">Setting up the project</a>
