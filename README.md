@@ -27,8 +27,12 @@ Clone the Repo
 
 #### Setting up the database  
 1. Start the mysql server
-2. Create a database called 'emerging_data'
-3. Restore the dump DatabaseSchemaQueries.sql in /EmergingScholarsApplication/Backend/DatabaseSchemaQueries.sql
+     _In Mac OS_
+     ```
+     mysql.server start
+     ```
+3. Create a database called 'emerging_data'
+4. Restore the dump DatabaseSchemaQueries.sql in /EmergingScholarsApplication/Backend/DatabaseSchemaQueries.sql
 
 #### Setting up the backend server
 1. Open application.properties file located at /EmergingScholarsApplication/Backend/src/main/resources/application.properties and change the following variable names:
