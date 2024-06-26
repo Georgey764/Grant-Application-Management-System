@@ -1,16 +1,11 @@
 package Emerging.App.Backend.Repository;
 
-import Emerging.App.Backend.Entities.CreatedApplication;
-import Emerging.App.Backend.Entities.MyUserDetails;
 import Emerging.App.Backend.Entities.SentApplication;
-import Emerging.App.Backend.Entities.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public interface SentApplicationRepository extends JpaRepository<SentApplication, Integer> {

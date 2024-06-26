@@ -7,7 +7,7 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 
 public class EncodedSecret {
-    private static String secretString = "ANSIJK@!(*)UDWOQHSDAAKLDJ)!@E@*W";
+    private static String secretString = System.getenv("SECRET_KEY");
     private static byte[] secretByte = secretString.getBytes(StandardCharsets.UTF_8);
 
     private static SecretKey secretKey = Keys.hmacShaKeyFor(secretByte);

@@ -29,7 +29,7 @@ import java.util.Optional;
 @RequestMapping("")
 public class LoginRestController {
 
-    private String requestingDomain = "localhost";
+    private String requestingDomain = System.getenv("DOMAIN");
     private AuthenticationManager authenticationManager;
     private UsersRepository usersRepository;
     private PasswordEncoder passwordEncoder;

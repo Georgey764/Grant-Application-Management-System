@@ -1,6 +1,5 @@
 package Emerging.App.Backend.Controller;
 
-import Emerging.App.Backend.Entities.CreatedApplication;
 import Emerging.App.Backend.Entities.Semester;
 import Emerging.App.Backend.Repository.CreatedApplicationRepository;
 import Emerging.App.Backend.Repository.SemesterRepository;
