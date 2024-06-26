@@ -3,13 +3,19 @@
 > This is a software made for the application submission process at Emerging Scholars.
 
 ## Overview
-1. <a href="#prerequisites">Prerequisites</a>
-2. <a href="#tech-stack">Tech Stack</a>
-3. <a href="#setting-up-project">Setting up the project</a>
+1. <a href="#walkthrough">Walkthrough video of the application</a>
+2. <a href="#screenshots">Screenshots of the application</a>
+3. <a href="#prerequisites">Prerequisites</a>
+4. <a href="#tech-stack">Tech Stack</a>
+5. <a href="#setting-up-project">Setting up the project</a>
       * Setting up the database
       * Setting up the backend server
       * Setting up the frontend
-4. <a href="#using-app">Using the Application</a>
+6. <a href="#using-app">Using the Application</a>
+
+## <p id="walkthrough">Walkthrough</p>
+
+## <p id="screenshots">Screenshots</p>
 
 ## <p id="prerequisites">Prequisites</p>
 - **mysql** >= 8.3.0
