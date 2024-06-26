@@ -42,8 +42,14 @@ Clone the Repo
    mysql -u username -p -e "CREATE DATABASE emerging_data;"
    ```
    > You will be prompted to enter password. If your mysql doesn't have any password you can omit the -p
+   > username = your mysql username
   
-4. Restore the dump DatabaseSchemaQueries.sql in /EmergingScholarsApplication/Backend/DatabaseSchemaQueries.sql
+  
+3. Restore the dump DatabaseSchemaQueries.sql in /EmergingScholarsApplication/Backend/DatabaseSchemaQueries.sql
+
+   ```
+   mysql -u username -p emerging_data < ./DatabaseSchemaQueries.sql
+   ```
 
 #### Setting up the backend server
 1. Open application.properties file located at /EmergingScholarsApplication/Backend/src/main/resources/application.properties and change the following variable names:
