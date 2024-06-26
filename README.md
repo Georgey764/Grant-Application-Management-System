@@ -80,12 +80,12 @@ I will give you a step by step instructions on how to set up the project. Since 
 
 3. Set the environment variables
 
-     In MacOS
+     _**In MacOS**_
      ```
      source env_vars.txt
      ```
 
-     In Windows
+     _**In Windows**_
      ```
      for /f "delims=" %i in (env_vars.txt) do set %i
      ```
