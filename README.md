@@ -13,7 +13,7 @@
       * Setting up the frontend
 6. <a href="#using-app">Demo Accounts for Using the Application</a>
 
-## <p id="walkthrough">Walkthrough</p>
+## <p id="walkthrough">Walkthrough Video</p>
 
 ## <p id="screenshots">Screenshots</p>
 1. Sign-in and Sign-up page
