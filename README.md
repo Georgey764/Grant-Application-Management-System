@@ -73,7 +73,12 @@ I will give you a step by step instructions on how to set up the project. Since 
      ```
   
 2. Change your directory back to the Backend project folder /EmergingApp/Backend/
-4. Run the following command
+
+     ```
+     cd /EmergingApp/Backend/
+     ```
+  
+3. Run the following command
   
      ```
      ./mvnw spring-boot:run
@@ -81,6 +86,11 @@ I will give you a step by step instructions on how to set up the project. Since 
   
 #### Setting up the frontend
 1. Change the directory to /EmergingApp/Frontend/
+
+     ```
+     cd /EmergingApp/Backend/
+     ```
+  
 2. Install the required dependencies
   
      ```
