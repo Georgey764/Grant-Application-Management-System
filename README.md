@@ -22,7 +22,8 @@
 ## Setting up the project
 I will give you a step by step instructions on how to set up the project. Since this is a full-stack application that uses database the set up is going to be very extensive.
 
-1. Clone the Repo
+#### First step in setting up the project:
+Clone the Repo
 
 #### Setting up the database  
 1. Start the mysql server
@@ -38,4 +39,4 @@ I will give you a step by step instructions on how to set up the project. Since 
 1. Change the directory to /EmergingScholarsApplication/Frontend/
 2. Run the following command
 
-## Demo Accounts
+## Using the Application
