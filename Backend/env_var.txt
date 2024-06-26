@@ -1,0 +1,8 @@
+#!/bin/bash
+
+export ALLOWED_ORIGIN="http://localhost:3000/"
+export DB_PASSWORD="OiSadakSadak#123"
+export DB_URL="jdbc:mysql://localhost:3306/emerging_data"
+export DB_USERNAME="root"
+export DOMAIN="localhost"
+export SECRET_KEY="ANSIJK@!(*)UQROQHSDAAKLDJ)!@E@*W"
