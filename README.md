@@ -20,27 +20,27 @@
 
      > The sign-in and sign-up feature is fully made from scratch using Spring Security. It is robust and uses secure security practices.
    <div align="center">
-        <img width="433" alt="Screenshot 2024-06-26 at 7 58 47 AM" src="https://github.com/Georgey764/EmergingApp/assets/127057827/1ae7d9bf-6f4d-4303-836b-a0b19ae86c18">
-        <img width="500" alt="Screenshot 2024-06-26 at 7 59 45 AM" src="https://github.com/Georgey764/EmergingApp/assets/127057827/86c26ef6-a9d1-4cbe-9f2c-d4d17c8f9b15">  
+        <img width="433" alt="Screenshot 2024-06-26 at 7 58 47 AM" src="https://github.com/Georgey764/applications-submission-software/assets/127057827/1ae7d9bf-6f4d-4303-836b-a0b19ae86c18">
+        <img width="500" alt="Screenshot 2024-06-26 at 7 59 45 AM" src="https://github.com/Georgey764/applications-submission-software/assets/127057827/86c26ef6-a9d1-4cbe-9f2c-d4d17c8f9b15">  
    </div>
 
 3. Student homepage
      > Students can view application status, sent applications and professors with available projects.
-     <img width="550" alt="Screenshot 2024-06-26 at 8 00 36 AM" src="https://github.com/Georgey764/EmergingApp/assets/127057827/6276b2a7-6468-4f5b-b76c-dd3fc8de8dab">
+     <img width="550" alt="Screenshot 2024-06-26 at 8 00 36 AM" src="https://github.com/Georgey764/applications-submission-software/assets/127057827/6276b2a7-6468-4f5b-b76c-dd3fc8de8dab">
 
    
 4. Student form submission page
      > Students can send their applications with their information and resume to the professors.
-     <img width="550" alt="Screenshot 2024-06-26 at 8 01 03 AM" src="https://github.com/Georgey764/EmergingApp/assets/127057827/09ee3fbf-e732-4d5e-b7cf-05338285c349">
+     <img width="550" alt="Screenshot 2024-06-26 at 8 01 03 AM" src="https://github.com/Georgey764/applications-submission-software/assets/127057827/09ee3fbf-e732-4d5e-b7cf-05338285c349">
      
    
 5. Faculty projects page
    > Faculties can create the project description that will be displayed to the students in the homepage.
-    <img width="550" alt="Screenshot 2024-06-26 at 8 01 54 AM" src="https://github.com/Georgey764/EmergingApp/assets/127057827/91d48b3f-d04d-4291-8cc3-3c87c4b84ace">
+    <img width="550" alt="Screenshot 2024-06-26 at 8 01 54 AM" src="https://github.com/Georgey764/applications-submission-software/assets/127057827/91d48b3f-d04d-4291-8cc3-3c87c4b84ace">
 
 6. Faculty view submissions page
      > Faculties can view the student application and give a decision in the view applications page.
-     <img width="550" alt="Screenshot 2024-06-26 at 8 02 28 AM" src="https://github.com/Georgey764/EmergingApp/assets/127057827/b2a8132a-e00b-4774-8b16-6e08675a8a1a">
+     <img width="550" alt="Screenshot 2024-06-26 at 8 02 28 AM" src="https://github.com/Georgey764/applications-submission-software/assets/127057827/b2a8132a-e00b-4774-8b16-6e08675a8a1a">
 
 ## <p id="prerequisites">Prequisites</p>
 - **mysql** >= 8.3.0
@@ -61,8 +61,8 @@ I will give you a step by step instructions on how to set up the project. Since 
 - Open the command line interface and then clone the Repo:
 
      ```
-     git clone https://github.com/Georgey764/EmergingApp.git
-     cd EmergingApp
+     git clone https://github.com/Georgey764/applications-submission-software.git
+     cd applications-submission-software
      ```
   
 #### Setting up the database  
@@ -85,14 +85,14 @@ I will give you a step by step instructions on how to set up the project. Since 
    > username = your mysql username
   
   
-3. Restore the dump DatabaseSchemaQueries.sql in /EmergingApp/Backend/DatabaseSchemaQueries.sql
+3. Restore the dump DatabaseSchemaQueries.sql in /applications-submission-software/Backend/DatabaseSchemaQueries.sql
 
    ```
    mysql -u username -p emerging_data < ./DatabaseSchemaQueries.sql
    ```
 
 #### Setting up the backend server
-1. Open application.properties file located at **/EmergingApp/Backend/src/main/resources/application.properties** and change the following variable names:
+1. Open application.properties file located at **/applications-submission-software/Backend/src/main/resources/application.properties** and change the following variable names:
   
      ```
      #Change the values of the following variables to your mysql user details
@@ -103,10 +103,10 @@ I will give you a step by step instructions on how to set up the project. Since 
      #spring.datasource.password=${DB_PASSWORD}
      ```
   
-2. Change your directory back to the Backend project folder /EmergingApp/Backend/
+2. Change your directory back to the Backend project folder /applications-submission-software/Backend/
 
      ```
-     cd /EmergingApp/Backend/
+     cd /applications-submission-software/Backend/
      ```
 
 3. Set the environment variables
@@ -128,10 +128,10 @@ I will give you a step by step instructions on how to set up the project. Since 
      ```
   
 #### Setting up the frontend
-1. Change the directory to /EmergingApp/Frontend/
+1. Change the directory to /applications-submission-software/Frontend/
 
      ```
-     cd /EmergingApp/Frontend/
+     cd /applications-submission-software/Frontend/
      ```
   
 2. Install the required dependencies
