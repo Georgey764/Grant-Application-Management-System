@@ -5,9 +5,9 @@
 ## Overview
 1. Prerequisites
 2. Setting up the project
-       * Setting up the database
-       * Setting up the backend server
-       * Setting up the frontend
+      * Setting up the database
+      * Setting up the backend server
+      * Setting up the frontend
 3. Tech Stack
 4. Demo Accounts
 
