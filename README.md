@@ -12,9 +12,10 @@
 4. Using the Application
 
 ## <p id="prerequisites">Prequisites</p>
-- mysql >= 8.3.0
-- npm >= 10.5.0 and LTS version
-- java 21
+- **mysql** >= 8.3.0
+- **npm** >= 10.5.0 (LTS Recommended)
+- **java** 21 (LTS Recommended)
+- **Node.js** >= v20.12.1 (LTS Recommended)
 
 ## Tech Stack
 
