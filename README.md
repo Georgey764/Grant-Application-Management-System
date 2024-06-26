@@ -69,7 +69,11 @@ Clone the Repo
   
 2. Change your directory back to the Backend project folder /EmergingScholarsApplication/Backend/
 4. Run the following command
-
+  
+     ```
+     ./mvnw spring-boot:run
+     ```
+  
 #### Setting up the frontend
 1. Change the directory to /EmergingScholarsApplication/Frontend/
 2. Run the following command
