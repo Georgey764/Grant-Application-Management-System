@@ -131,5 +131,5 @@ Here is a list of demo accounts you can use to try out the application after you
      password: password!123  
 
      Teacher/Faculty:
-     email: janedoe@warhawks.ulm.edu
+     email: janedoe@ulm.edu, welsh@ulm.edu, michaels@ulm.edu, margaret@ulm.edu
      password: password!123
