@@ -1,4 +1,4 @@
-# Applications Submission Software  
+# Grant Application Management System
 
 > This is a software made for the application submission process at Emerging Scholars.
 
